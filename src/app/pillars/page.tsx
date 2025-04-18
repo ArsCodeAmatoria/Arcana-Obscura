@@ -1,50 +1,50 @@
 import MainLayout from '@/components/layout/MainLayout';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, FlaskConical, Flower, Hammer, Trees, Star, Moon, Sparkles } from 'lucide-react';
 
 const traditions = [
   {
     id: 'hermeticism',
     title: 'Hermeticism',
     description: 'The ancient Egyptian-Greek wisdom tradition attributed to Hermes Trismegistus, teaching that "as above, so below" and the principles of mental alchemy.',
-    symbol: '☿',
+    icon: <FlaskConical className="w-8 h-8 text-accent" />,
   },
   {
     id: 'rosicrucianism',
     title: 'Rosicrucianism',
     description: 'A spiritual and cultural movement that emerged in Europe in the early 17th century combining Christian mysticism with esoteric traditions.',
-    symbol: '🌹✝️',
+    icon: <Flower className="w-8 h-8 text-accent" />,
   },
   {
     id: 'freemasonry',
     title: 'Freemasonry',
     description: 'A fraternal organization that traces its origins to the local fraternities of stonemasons that from the end of the 14th century regulated the qualifications of masons and their interaction with authorities and clients.',
-    symbol: '🔨🧭',
+    icon: <Hammer className="w-8 h-8 text-accent" />,
   },
   {
     id: 'druidry',
     title: 'Druidry',
     description: 'The ancient Celtic priesthood and wisdom tradition focused on nature reverence, divination, and ritual magic.',
-    symbol: '🌳🌿',
+    icon: <Trees className="w-8 h-8 text-accent" />,
   },
   {
     id: 'kabbalah',
     title: 'Kabbalah',
     description: 'Jewish mystical tradition that offers a set of esoteric teachings meant to explain the relationship between the unchanging, eternal God and the mortal, finite universe.',
-    symbol: '🌟',
+    icon: <Star className="w-8 h-8 text-accent" />,
   },
   {
     id: 'sufism',
     title: 'Sufism',
     description: 'The mystical branch of Islam, focusing on direct personal experience of the divine through spiritual practices and devotion.',
-    symbol: '☪️',
+    icon: <Moon className="w-8 h-8 text-accent" />,
   },
   {
     id: 'gnosticism',
     title: 'Gnosticism',
     description: 'Various religious ideas and systems that emphasized personal spiritual knowledge (gnosis) over orthodox teachings, traditions, or ecclesiastical authority.',
-    symbol: '⭐',
+    icon: <Sparkles className="w-8 h-8 text-accent" />,
   },
 ];
 
@@ -68,7 +68,7 @@ export default function PillarsPage() {
             >
               <Card className="pillar-card h-full transition-all duration-300 group-hover:translate-y-[-5px]">
                 <CardHeader>
-                  <div className="text-4xl mb-2">{tradition.symbol}</div>
+                  <div className="mb-2">{tradition.icon}</div>
                   <CardTitle className="text-xl font-esoterica">{tradition.title}</CardTitle>
                   <CardDescription>{tradition.description}</CardDescription>
                 </CardHeader>
