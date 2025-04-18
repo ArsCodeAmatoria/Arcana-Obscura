@@ -1,7 +1,36 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
+import { MapContainer, TileLayer, Marker, Popup, ZoomControl, useMap } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+
+// Fix for default marker icons in Next.js
+const fixLeafletIcons = () => {
+  // Only run on client side
+  if (typeof window !== 'undefined') {
+    // @ts-ignore
+    delete L.Icon.Default.prototype._getIconUrl;
+    
+    L.Icon.Default.mergeOptions({
+      iconRetinaUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png',
+      iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
+      shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
+    });
+  }
+};
+
+// Custom zoom controls component
+function MapControls({ position }: { position: L.LatLngExpression }) {
+  const map = useMap();
+  
+  useEffect(() => {
+    map.setView(position, map.getZoom());
+  }, [position, map]);
+  
+  return null;
+}
 
 // Esoteric sites data
 const esotericSites = [
@@ -10,8 +39,7 @@ const esotericSites = [
     name: "Great Pyramid of Giza",
     location: "Egypt",
     description: "Ancient initiation site and repository of hermetic knowledge",
-    coordinates: [31.1342, 29.9792],
-    position: { x: 565, y: 190 },
+    coordinates: [29.9792, 31.1342], // [lat, lng]
     type: "sacred-site",
   },
   {
@@ -19,8 +47,7 @@ const esotericSites = [
     name: "Temple of Apollo at Delphi",
     location: "Greece",
     description: "Home of the Oracle and center of Greek mystery traditions",
-    coordinates: [22.5011, 38.4824],
-    position: { x: 535, y: 175 },
+    coordinates: [38.4824, 22.5011],
     type: "sacred-site",
   },
   {
@@ -28,8 +55,7 @@ const esotericSites = [
     name: "Rosslyn Chapel",
     location: "Scotland",
     description: "Medieval chapel with Templar and Masonic symbolism",
-    coordinates: [-3.1583, 55.8555],
-    position: { x: 480, y: 140 },
+    coordinates: [55.8555, -3.1583],
     type: "sacred-site",
   },
   {
@@ -37,8 +63,7 @@ const esotericSites = [
     name: "The Eleusinian Mysteries",
     location: "Eleusis, Greece",
     description: "Ancient Greek mystery rites dedicated to Demeter and Persephone",
-    coordinates: [23.5415, 38.0431],
-    position: { x: 540, y: 177 },
+    coordinates: [38.0431, 23.5415],
     type: "mystery-school",
   },
   {
@@ -46,8 +71,7 @@ const esotericSites = [
     name: "School of Alexandria",
     location: "Alexandria, Egypt",
     description: "Center of Neoplatonic and Hermetic studies in late antiquity",
-    coordinates: [29.9187, 31.2001],
-    position: { x: 560, y: 195 },
+    coordinates: [31.2001, 29.9187],
     type: "mystery-school",
   },
   {
@@ -55,8 +79,7 @@ const esotericSites = [
     name: "Chartres Cathedral",
     location: "France",
     description: "Gothic masterpiece embodying sacred geometry principles",
-    coordinates: [1.4877, 48.4481],
-    position: { x: 495, y: 155 },
+    coordinates: [48.4481, 1.4877],
     type: "sacred-site",
   },
   {
@@ -64,8 +87,7 @@ const esotericSites = [
     name: "Temple of Karnak",
     location: "Egypt",
     description: "Ancient Egyptian temple complex of immense spiritual significance",
-    coordinates: [32.6578, 25.7188],
-    position: { x: 570, y: 185 },
+    coordinates: [25.7188, 32.6578],
     type: "sacred-site",
   },
   {
@@ -73,8 +95,7 @@ const esotericSites = [
     name: "Pythagorean School",
     location: "Croton, Italy",
     description: "Ancient philosophical school studying sacred mathematics and music",
-    coordinates: [17.1261, 39.0811],
-    position: { x: 520, y: 180 },
+    coordinates: [39.0811, 17.1261],
     type: "mystery-school",
   },
   {
@@ -82,8 +103,7 @@ const esotericSites = [
     name: "Order of the Golden Dawn",
     location: "London, England",
     description: "Influential 19th century magical order blending multiple traditions",
-    coordinates: [-0.1278, 51.5074],
-    position: { x: 485, y: 145 },
+    coordinates: [51.5074, -0.1278],
     type: "mystery-school",
   },
   {
@@ -91,8 +111,7 @@ const esotericSites = [
     name: "House of Wisdom",
     location: "Baghdad, Iraq",
     description: "Medieval center for translation and advancement of esoteric knowledge",
-    coordinates: [44.3661, 33.3152],
-    position: { x: 595, y: 190 },
+    coordinates: [33.3152, 44.3661],
     type: "mystery-school",
   },
   {
@@ -100,8 +119,7 @@ const esotericSites = [
     name: "Mount Kailash",
     location: "Tibet",
     description: "Sacred mountain considered the spiritual center of the universe in several traditions",
-    coordinates: [81.3131, 31.0672],
-    position: { x: 685, y: 185 },
+    coordinates: [31.0672, 81.3131],
     type: "sacred-site",
   },
   {
@@ -109,8 +127,7 @@ const esotericSites = [
     name: "Newgrange",
     location: "Ireland",
     description: "Ancient passage tomb aligned with the winter solstice sunrise",
-    coordinates: [-6.4755, 53.6947],
-    position: { x: 465, y: 145 },
+    coordinates: [53.6947, -6.4755],
     type: "sacred-site",
   },
   {
@@ -118,8 +135,7 @@ const esotericSites = [
     name: "Kyoto Temple Gardens",
     location: "Japan",
     description: "Zen Buddhist temples with sacred geometry in their garden designs",
-    coordinates: [135.7681, 35.0116],
-    position: { x: 800, y: 170 },
+    coordinates: [35.0116, 135.7681],
     type: "sacred-site",
   },
   {
@@ -127,8 +143,7 @@ const esotericSites = [
     name: "Mystery School of Pythagoras",
     location: "Samos, Greece",
     description: "Birthplace of Pythagoras and his first mystery school",
-    coordinates: [26.9767, 37.7542],
-    position: { x: 545, y: 175 },
+    coordinates: [37.7542, 26.9767],
     type: "mystery-school",
   },
   {
@@ -136,134 +151,41 @@ const esotericSites = [
     name: "Machu Picchu",
     location: "Peru",
     description: "Ancient Incan city with astronomical alignments and sacred geometry",
-    coordinates: [-72.5450, -13.1631],
-    position: { x: 280, y: 300 },
+    coordinates: [-13.1631, -72.5450],
     type: "sacred-site",
   }
 ];
 
-// Custom marker component
-const MarkerIcon = ({ type, x, y, onClick }: { type: string; x: number; y: number; onClick: () => void }) => {
-  if (type === 'sacred-site') {
-    return (
-      <g transform={`translate(${x}, ${y})`} onClick={onClick} style={{ cursor: 'pointer' }} className="animate-pulse">
-        <path 
-          d="M0,-8 L7,4 L0,1 L-7,4 Z" 
-          fill="hsl(45 100% 60%)" 
-          stroke="hsl(0 0% 95%)" 
-          strokeWidth={0.5} 
-        />
-        <circle 
-          r={1.5} 
-          cy={-2} 
-          fill="hsl(0 0% 95%)" 
-        />
-      </g>
-    );
-  } else {
-    return (
-      <g transform={`translate(${x}, ${y})`} onClick={onClick} style={{ cursor: 'pointer' }} className="animate-pulse">
-        <circle 
-          r={5} 
-          fill="none" 
-          stroke="hsl(264 76% 55%)" 
-          strokeWidth={1.5} 
-        />
-        <circle 
-          r={1.5} 
-          fill="hsl(264 76% 55%)" 
-        />
-        <path 
-          d="M0,-5 L0,5 M-5,0 L5,0" 
-          stroke="hsl(264 76% 55%)" 
-          strokeWidth={0.8} 
-        />
-      </g>
-    );
-  }
+// Create custom icons
+const createCustomIcon = (type: string) => {
+  return new L.DivIcon({
+    className: `custom-div-icon ${type}`,
+    html: type === 'sacred-site' 
+      ? `<div class="marker-pin sacred-site">
+          <div class="pulse-element"></div>
+         </div>`
+      : `<div class="marker-pin mystery-school">
+          <div class="pulse-element"></div>
+         </div>`,
+    iconSize: [30, 30],
+    iconAnchor: [15, 15]
+  });
 };
-
-// Lines connecting sacred sites - fixed indices to match array positions (0-indexed)
-const leyLines = [
-  { from: 0, to: 6 },  // Great Pyramid to Temple of Karnak
-  { from: 0, to: 1 },  // Great Pyramid to Temple of Apollo
-  { from: 1, to: 3 },  // Temple of Apollo to Eleusinian Mysteries
-  { from: 4, to: 7 },  // School of Alexandria to Pythagorean School
-  { from: 7, to: 5 },  // Pythagorean School to Chartres Cathedral
-  { from: 5, to: 2 },  // Chartres Cathedral to Rosslyn Chapel
-  { from: 6, to: 12 }, // Temple of Karnak to Kyoto Temple Gardens
-  { from: 9, to: 11 }, // House of Wisdom to Newgrange
-  { from: 2, to: 8 },  // Rosslyn Chapel to Order of the Golden Dawn
-  { from: 10, to: 0 }, // Mount Kailash to Great Pyramid - connecting East and West
-];
 
 export default function EsotericMap() {
   const [selectedSite, setSelectedSite] = useState<any>(null);
-  const [viewBox, setViewBox] = useState("0 0 1000 500");
-  const [scale, setScale] = useState(1);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
-  const [startPoint, setStartPoint] = useState({ x: 0, y: 0 });
+  const [mapCenter, setMapCenter] = useState([30, 20]); // Default center
+  const [mapZoom, setMapZoom] = useState(2); // Default zoom
+  
+  // Initialize leaflet icons
+  useEffect(() => {
+    fixLeafletIcons();
+  }, []);
 
   const handleMarkerClick = (site: any) => {
     setSelectedSite(site);
+    setMapCenter(site.coordinates);
   };
-
-  const handleZoomIn = () => {
-    if (scale < 3) {
-      setScale(prevScale => prevScale + 0.2);
-    }
-  };
-
-  const handleZoomOut = () => {
-    if (scale > 0.5) {
-      setScale(prevScale => prevScale - 0.2);
-    }
-  };
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true);
-    setStartPoint({ x: e.clientX, y: e.clientY });
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging) return;
-    
-    const dx = (e.clientX - startPoint.x) / scale;
-    const dy = (e.clientY - startPoint.y) / scale;
-    
-    setPosition(prev => ({ x: prev.x + dx, y: prev.y + dy }));
-    setStartPoint({ x: e.clientX, y: e.clientY });
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  // Create grid lines
-  const gridLines = [];
-  for (let i = 0; i < 20; i++) {
-    gridLines.push(
-      <path 
-        key={`lat-${i}`} 
-        d={`M0,${i * 25} L1000,${i * 25}`} 
-        stroke="hsl(45 100% 60% / 0.07)" 
-        strokeWidth={0.3} 
-        strokeDasharray="2 4" 
-      />
-    );
-  }
-  for (let i = 0; i < 40; i++) {
-    gridLines.push(
-      <path 
-        key={`lon-${i}`} 
-        d={`M${i * 25},0 L${i * 25},500`} 
-        stroke="hsl(45 100% 60% / 0.07)" 
-        strokeWidth={0.3} 
-        strokeDasharray="2 4" 
-      />
-    );
-  }
 
   return (
     <div className="relative h-[70vh] border border-accent/10 rounded-lg overflow-hidden shadow-inner shadow-black/20">
@@ -289,114 +211,118 @@ export default function EsotericMap() {
         <div className="flex flex-col gap-2 text-sm">
           <div className="flex items-center">
             <div className="flex items-center justify-center mr-2 w-6 h-6">
-              <svg viewBox="0 0 16 16" width="16" height="16">
-                <path d="M0,-8 L7,4 L0,1 L-7,4 Z" transform="translate(8, 8)" fill="hsl(45 100% 60%)" stroke="hsl(0 0% 95%)" strokeWidth={0.5} />
-              </svg>
+              <div className="w-4 h-4 bg-amber-400 rounded-sm"></div>
             </div>
             <span className="text-foreground/80">Sacred Sites</span>
           </div>
           <div className="flex items-center">
             <div className="flex items-center justify-center mr-2 w-6 h-6">
-              <svg viewBox="0 0 16 16" width="16" height="16">
-                <circle cx="8" cy="8" r="5" fill="none" stroke="hsl(264 76% 55%)" strokeWidth={1.5} />
-                <circle cx="8" cy="8" r="1.5" fill="hsl(264 76% 55%)" />
-              </svg>
+              <div className="w-4 h-4 rounded-full border-2 border-purple-500"></div>
             </div>
             <span className="text-foreground/80">Mystery Schools</span>
           </div>
         </div>
       </div>
 
-      <div 
-        className="w-full h-full overflow-hidden" 
-        style={{ backgroundColor: "#0f0e1a" }}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
+      <style jsx global>{`
+        .leaflet-container {
+          height: 100%;
+          width: 100%;
+          background-color: #0f0e1a;
+        }
+        .marker-pin {
+          width: 30px;
+          height: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+        }
+        .marker-pin.sacred-site {
+          background-color: hsl(45, 100%, 60%);
+          clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+        }
+        .marker-pin.mystery-school {
+          background-color: transparent;
+          border: 2px solid hsl(264, 76%, 55%);
+          border-radius: 50%;
+        }
+        .pulse-element {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          border-radius: inherit;
+          animation: pulse 1.5s ease-out infinite;
+          opacity: 0.5;
+        }
+        .sacred-site .pulse-element {
+          clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+          background-color: hsl(45, 100%, 60%);
+        }
+        .mystery-school .pulse-element {
+          border-radius: 50%;
+          border: 2px solid hsl(264, 76%, 55%);
+        }
+        @keyframes pulse {
+          0% {
+            transform: scale(0.95);
+            opacity: 0.7;
+          }
+          70% {
+            transform: scale(1.1);
+            opacity: 0.3;
+          }
+          100% {
+            transform: scale(0.95);
+            opacity: 0.7;
+          }
+        }
+        .custom-popup .leaflet-popup-content-wrapper {
+          background-color: rgba(15, 14, 26, 0.9);
+          backdrop-filter: blur(10px);
+          color: #fff;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 10px;
+        }
+        .custom-popup .leaflet-popup-tip {
+          background-color: rgba(15, 14, 26, 0.9);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+      `}</style>
+
+      <MapContainer 
+        center={mapCenter as L.LatLngExpression} 
+        zoom={mapZoom} 
+        zoomControl={false}
+        className="z-0"
+        attributionControl={false}
       >
-        <svg 
-          width="100%" 
-          height="100%" 
-          viewBox={viewBox}
-          style={{ 
-            transform: `scale(${scale}) translate(${position.x}px, ${position.y}px)`,
-            transformOrigin: 'center',
-            transition: isDragging ? 'none' : 'transform 0.3s ease-out',
-            cursor: isDragging ? 'grabbing' : 'grab'
-          }}
-        >
-          {/* Background glow effect */}
-          <defs>
-            <radialGradient id="mapGlow" cx="500" cy="250" r="400" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stopColor="hsl(264 76% 15% / 0.5)" />
-              <stop offset="100%" stopColor="hsl(264 76% 5% / 0)" />
-            </radialGradient>
-          </defs>
-          <circle cx="500" cy="250" r="400" fill="url(#mapGlow)" />
-
-          {/* World Map Outline - Simplified vector of world continents */}
-          <g fill="#1f1d2e" stroke="hsl(264 76% 55% / 0.3)" strokeWidth={0.5}>
-            {/* Africa */}
-            <path d="M500,170 L570,170 L590,260 L550,350 L480,350 L450,300 L460,220 Z" />
-            {/* Europe */}
-            <path d="M460,120 L560,120 L580,170 L500,170 L460,150 Z" />
-            {/* Asia */}
-            <path d="M560,120 L800,140 L840,190 L800,300 L700,350 L590,260 L570,170 L580,170 Z" />
-            {/* North America */}
-            <path d="M150,120 L300,130 L350,200 L300,260 L200,300 L150,250 Z" />
-            {/* South America */}
-            <path d="M300,260 L350,350 L300,400 L250,320 L280,290 Z" />
-            {/* Australia */}
-            <path d="M800,320 L870,320 L860,370 L780,380 Z" />
-            {/* Antarctica */}
-            <path d="M400,450 L600,450 L650,430 L350,430 Z" />
-          </g>
-
-          {/* Grid lines */}
-          <g>
-            {gridLines}
-          </g>
-
-          {/* Ley lines connecting sacred sites */}
-          <g stroke="hsl(45 100% 60% / 0.3)" strokeWidth={0.5} strokeDasharray="2 3">
-            {leyLines.map((line, index) => (
-              <path 
-                key={`ley-${index}`} 
-                d={`M${esotericSites[line.from].position.x},${esotericSites[line.from].position.y} L${esotericSites[line.to].position.x},${esotericSites[line.to].position.y}`} 
-              />
-            ))}
-          </g>
-
-          {/* Markers for each site */}
-          {esotericSites.map((site) => (
-            <MarkerIcon 
-              key={site.id} 
-              type={site.type} 
-              x={site.position.x} 
-              y={site.position.y} 
-              onClick={() => handleMarkerClick(site)} 
-            />
-          ))}
-        </svg>
-      </div>
-      
-      <div className="absolute bottom-4 right-4 z-20 flex gap-2">
-        <button
-          className="bg-card/60 backdrop-blur-sm text-foreground p-2 rounded-full border border-border/30 hover:bg-card transition-colors w-8 h-8 flex items-center justify-center shadow-lg shadow-black/10 hover:shadow-accent/5"
-          onClick={handleZoomOut}
-          aria-label="Zoom out"
-        >
-          −
-        </button>
-        <button
-          className="bg-card/60 backdrop-blur-sm text-foreground p-2 rounded-full border border-border/30 hover:bg-card transition-colors w-8 h-8 flex items-center justify-center shadow-lg shadow-black/10 hover:shadow-accent/5"
-          onClick={handleZoomIn}
-          aria-label="Zoom in"
-        >
-          +
-        </button>
-      </div>
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+        />
+        <MapControls position={mapCenter as L.LatLngExpression} />
+        <ZoomControl position="bottomright" />
+        
+        {esotericSites.map((site) => (
+          <Marker 
+            key={site.id} 
+            position={site.coordinates as L.LatLngExpression}
+            icon={createCustomIcon(site.type)}
+            eventHandlers={{
+              click: () => handleMarkerClick(site),
+            }}
+          >
+            <Popup className="custom-popup">
+              <div className="text-sm">
+                <h3 className="font-esoterica text-base text-accent">{site.name}</h3>
+                <p className="text-xs text-muted-foreground mb-1 border-l-2 border-primary/30 pl-2 mt-1">{site.location}</p>
+                <p className="text-xs">{site.description}</p>
+              </div>
+            </Popup>
+          </Marker>
+        ))}
+      </MapContainer>
       
       {selectedSite && (
         <Card className="absolute bottom-4 left-4 z-20 max-w-xs bg-card/90 backdrop-blur-md border-accent/30 shadow-lg shadow-black/20">
