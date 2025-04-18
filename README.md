@@ -2,7 +2,7 @@
 
 A modern, esoteric knowledge portal inspired by *The Secret Teachings of All Ages* and various mystery traditions. This web application provides a digital repository dedicated to preserving and illuminating esoteric wisdom traditions.
 
-## 🔮 Features
+## Features
 
 - **The Living Grimoire**: Home page with cosmic Three.js animation and site introduction
 - **Pillars of Mystery**: Navigation hub for exploring different esoteric traditions
@@ -13,7 +13,7 @@ A modern, esoteric knowledge portal inspired by *The Secret Teachings of All Age
 - **Daily Oracle**: Quote generator from Hermetic/Kabbalistic texts
 - **Symbol Decoder**: Hover glossary for esoteric iconography
 
-## 🛠 Tech Stack
+## Tech Stack
 
 - **Framework**: [Next.js](https://nextjs.org/) with App Router
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
@@ -23,7 +23,7 @@ A modern, esoteric knowledge portal inspired by *The Secret Teachings of All Age
 - **3D Graphics**: [Three.js](https://threejs.org/) / [@react-three/fiber](https://docs.pmnd.rs/react-three-fiber/getting-started/introduction)
 - **Mapping**: [react-simple-maps](https://www.react-simple-maps.io/)
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 arcana-obscura/
@@ -51,7 +51,7 @@ arcana-obscura/
 └── package.json               # Project dependencies
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -82,14 +82,14 @@ arcana-obscura/
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## 🌙 Theme
+## Theme
 
 - Dark velvet background with cosmic accents
 - Gold, deep purple, and dark crimson highlights
 - Serif and alchemical-looking display fonts
 - Mystical hover glows and smooth animations
 
-## 🔍 Page Descriptions
+## Page Descriptions
 
 - `/` - **The Living Grimoire**: A cosmic animation introduces visitors to the site's purpose as a repository of esoteric knowledge
 - `/pillars` - **Pillars of Mystery**: A hub showcasing different esoteric traditions (Hermeticism, Rosicrucianism, etc.)
@@ -100,18 +100,18 @@ arcana-obscura/
 - `/oracle` - **Daily Oracle**: A random quote generator drawing from the wisdom of esoteric teachings
 - `/decoder` - **Symbol Decoder**: A reference guide explaining common esoteric symbols and their meanings
 
-## 📚 Content Sources
+## Content Sources
 
 The content for this project draws inspiration from:
 - *The Secret Teachings of All Ages* by Manly P. Hall
 - *The Kybalion* by Three Initiates
 - Works on Hermeticism, Kabbalah, Rosicrucianism, Freemasonry, and other esoteric traditions
 
-## 📜 License
+## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## ✨ Acknowledgements
+## Acknowledgements
 
 - Manly P. Hall for his extensive research on esoteric traditions
 - The developers of all the open-source libraries used in this project
