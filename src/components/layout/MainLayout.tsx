@@ -20,7 +20,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
       
       <Navbar />
       
-      <main className="flex-1 pt-16 relative">
+      <main className="flex-1 pt-24 relative">
         {/* Background gradient orbs */}
         <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
           <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px]"></div>

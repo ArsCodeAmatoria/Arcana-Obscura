@@ -105,6 +105,60 @@ export default function HermeticismPage() {
           <span className="text-sm not-italic block mt-2 text-accent/80">— The Emerald Tablet</span>
         </blockquote>
 
+        <Card className="bg-card/50 backdrop-blur-sm border-primary/10 card-glow mb-12">
+          <CardContent className="p-8">
+            <h2 className="text-3xl font-esoterica mb-6 text-primary">The Shem HaMephorash</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div>
+                <p className="mb-6 text-foreground/90 leading-relaxed">
+                  The Shem HaMephorash, or "the explicit name," is a powerful concept in Hermetic Kabbalah derived from the 72 names of God. 
+                  These names are extracted from three verses in Exodus (14:19-21), each containing 72 letters in the original Hebrew.
+                </p>
+                <p className="mb-6 text-foreground/90 leading-relaxed">
+                  In Hermetic tradition, each of the 72 names corresponds to a specific angel with unique powers and attributes. 
+                  These angels are seen as emanations of divine energy that can be invoked for spiritual work, transformation, and communion 
+                  with higher realms of consciousness.
+                </p>
+                <p className="text-foreground/90 leading-relaxed">
+                  Practitioners of Hermeticism often incorporate the Shem HaMephorash into talismans, rituals, and meditative practices 
+                  to harness specific energies or qualities associated with each angelic name.
+                </p>
+              </div>
+              <div className="flex items-center justify-center">
+                <div className="relative w-64 h-64">
+                  <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                    <circle cx="100" cy="100" r="98" stroke="hsl(45 100% 60%)" strokeWidth="0.5" />
+                    <circle cx="100" cy="100" r="70" stroke="hsl(45 100% 60%)" strokeWidth="0.5" />
+                    <circle cx="100" cy="100" r="40" stroke="hsl(45 100% 60%)" strokeWidth="0.5" />
+                    
+                    {/* 72 divisions around the circle */}
+                    {Array.from({ length: 72 }).map((_, i) => (
+                      <path
+                        key={i}
+                        d={`M 100 100 L ${100 + 98 * Math.cos(i * Math.PI / 36)} ${100 + 98 * Math.sin(i * Math.PI / 36)}`}
+                        stroke="hsl(45 100% 60%)"
+                        strokeWidth="0.2"
+                        opacity="0.5"
+                      />
+                    ))}
+                    
+                    {/* Hebrew-inspired letters */}
+                    <text x="96" y="30" fill="hsl(45 100% 60%)" fontSize="8" fontFamily="serif">א</text>
+                    <text x="170" y="100" fill="hsl(45 100% 60%)" fontSize="8" fontFamily="serif">ל</text>
+                    <text x="96" y="175" fill="hsl(45 100% 60%)" fontSize="8" fontFamily="serif">ה</text>
+                    <text x="25" y="100" fill="hsl(45 100% 60%)" fontSize="8" fontFamily="serif">י</text>
+                    
+                    {/* Central element */}
+                    <path d="M 100 60 L 120 120 L 80 120 Z" stroke="hsl(45 100% 60%)" strokeWidth="0.5" fill="none" />
+                    <path d="M 100 140 L 120 80 L 80 80 Z" stroke="hsl(45 100% 60%)" strokeWidth="0.5" fill="none" />
+                  </svg>
+                  <div className="absolute inset-0 bg-accent/5 rounded-full blur-2xl -z-10"></div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         <div className="text-center text-muted-foreground">
           <p className="inline-block border border-border/30 px-4 py-2 rounded-full text-sm bg-card/30 backdrop-blur-sm">Full content coming soon...</p>
         </div>
