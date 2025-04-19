@@ -1,7 +1,9 @@
+'use client';
+
 import MainLayout from '@/components/layout/MainLayout';
 import Link from 'next/link';
-import { ArrowLeft, Radio, Dna, Brain, LayoutGrid, Asterisk, AlertTriangle } from 'lucide-react';
-import { RiPlanetFill } from 'react-icons/ri';
+import { ArrowLeft, Radio, Dna, Brain, LayoutGrid, Asterisk, AlertTriangle, Database } from 'lucide-react';
+import { Database as PlanetIcon } from 'lucide-react';
 
 export default function SaturnMatrixPage() {
   return (
@@ -21,7 +23,7 @@ export default function SaturnMatrixPage() {
         {/* Header */}
         <div className="text-center mb-12">
           <div className="relative inline-block mb-6">
-            <RiPlanetFill className="w-20 h-20 text-accent icon-glow" />
+            <PlanetIcon className="w-20 h-20 text-accent icon-glow" />
             <div className="absolute inset-0 bg-accent/10 rounded-full blur-xl -z-10"></div>
           </div>
           <h1 className="text-5xl md:text-6xl font-esoterica mb-6 text-accent">

@@ -1,3 +1,5 @@
+'use client';
+
 import MainLayout from '@/components/layout/MainLayout';
 import Link from 'next/link';
 import { ArrowLeft, Globe, History, Book, BrainCircuit, Sparkles, Scale } from 'lucide-react';

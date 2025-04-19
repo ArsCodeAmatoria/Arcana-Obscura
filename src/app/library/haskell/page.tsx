@@ -1,3 +1,5 @@
+'use client';
+
 import MainLayout from '@/components/layout/MainLayout';
 import Link from 'next/link';
 import { ArrowLeft, Code, BookOpen, Rocket, BrainCircuit, Sparkles, Scroll, FlaskConical } from 'lucide-react';

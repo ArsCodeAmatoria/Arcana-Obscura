@@ -1,3 +1,5 @@
+'use client';
+
 import MainLayout from '@/components/layout/MainLayout';
 import Link from 'next/link';
 import { ArrowLeft, Zap, BookMarked, Star, Sparkles, AlertTriangle } from 'lucide-react';

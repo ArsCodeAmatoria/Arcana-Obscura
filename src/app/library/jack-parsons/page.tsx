@@ -1,3 +1,5 @@
+'use client';
+
 import MainLayout from '@/components/layout/MainLayout';
 import Link from 'next/link';
 import { ArrowLeft, Rocket, Star, Sparkles, Scroll, Flame, Beaker } from 'lucide-react';
