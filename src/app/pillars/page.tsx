@@ -1,7 +1,7 @@
 import MainLayout from '@/components/layout/MainLayout';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import Link from 'next/link';
-import { ArrowRight, FlaskConical, Flower, Hammer, Trees, Star, Moon, Sparkles } from 'lucide-react';
+import { ArrowRight, FlaskConical, Flower, Hammer, Trees, Star, Moon, Sparkles, Wand } from 'lucide-react';
 
 const traditions = [
   {
@@ -45,6 +45,12 @@ const traditions = [
     title: 'Gnosticism',
     description: 'Various religious ideas and systems that emphasized personal spiritual knowledge (gnosis) over orthodox teachings, traditions, or ecclesiastical authority.',
     icon: <Sparkles className="w-10 h-10 text-accent icon-glow" />,
+  },
+  {
+    id: 'witchcraft',
+    title: 'Witchcraft',
+    description: 'The ancient and evolving tradition of folk magic, nature wisdom, and feminine spiritual power that has persisted throughout history in various forms.',
+    icon: <Wand className="w-10 h-10 text-accent icon-glow" />,
   },
 ];
 

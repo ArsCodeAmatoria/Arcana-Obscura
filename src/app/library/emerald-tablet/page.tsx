@@ -1,6 +1,6 @@
 import MainLayout from '@/components/layout/MainLayout';
 import Link from 'next/link';
-import { ArrowLeft, ScrollText, Sparkles, Scale, Beaker, Compass } from 'lucide-react';
+import { ArrowLeft, ScrollText, Sparkles, Scale, Beaker, Compass, FlaskConical } from 'lucide-react';
 
 export default function EmeraldTabletPage() {
   return (

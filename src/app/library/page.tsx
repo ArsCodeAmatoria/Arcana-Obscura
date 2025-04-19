@@ -75,6 +75,15 @@ const books = [
     category: 'Rosicrucianism',
     year: '1614-1615',
     icon: <BookMarked className="w-8 h-8 text-accent" />
+  },
+  {
+    id: 'golem',
+    title: 'The Golem',
+    author: 'Jewish Mystical Tradition',
+    description: 'Accounts of artificial anthropomorphic beings created from clay and animated through sacred Hebrew incantations and rituals.',
+    category: 'Jewish Mysticism',
+    year: '16th Century CE',
+    icon: <Skull className="w-8 h-8 text-accent" />
   }
 ];
 

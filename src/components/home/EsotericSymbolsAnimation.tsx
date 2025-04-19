@@ -2,24 +2,24 @@
 
 import React, { useState, useEffect } from 'react';
 
-// Color themes for the embers
-const EMBER_COLORS = {
-  BRIGHT_ORANGE: 'hsl(30, 100%, 55%)',
-  ORANGE: 'hsl(20, 100%, 50%)',
-  DEEP_RED: 'hsl(10, 90%, 40%)',
-  YELLOW: 'hsl(45, 100%, 60%)',
-  RED: 'hsl(0, 100%, 45%)'
+// Color themes for the fire specks - authentic fire colors
+const FIRE_COLORS = {
+  BRIGHT_ORANGE: 'hsl(30, 100%, 70%)',
+  DEEP_ORANGE: 'hsl(20, 100%, 60%)',
+  GOLDEN_YELLOW: 'hsl(45, 100%, 75%)',
+  RED_ORANGE: 'hsl(15, 100%, 65%)',
+  EMBER_RED: 'hsl(5, 90%, 60%)'
 };
 
-// Glow colors
+// Glow colors - more subtle
 const GLOW_COLORS = {
-  ORANGE_GLOW: 'hsl(30, 100%, 50%)',
-  RED_GLOW: 'hsl(10, 100%, 50%)',
-  YELLOW_GLOW: 'hsl(45, 100%, 50%)'
+  ORANGE_GLOW: 'hsl(30, 100%, 65%)',
+  RED_GLOW: 'hsl(10, 100%, 60%)',
+  YELLOW_GLOW: 'hsl(45, 100%, 70%)'
 };
 
-// Definition for a floating ember
-interface FloatingEmber {
+// Definition for a floating fire speck
+interface FireSpeck {
   id: number;
   x: number;
   y: number;
@@ -30,13 +30,10 @@ interface FloatingEmber {
   color: string;
   glowColor: string;
   glowIntensity: number;
-  flickerSpeed: number;
-  flickerPhase: number;
-  lifespan: number; // How long this ember lives before fading completely
-  age: number; // Current age of the ember
-  rotationAngle: number;
-  rotationSpeed: number;
-  variant: number; // Controls the appearance variant of the ember
+  fadeSpeed: number; // Controls how quickly it fades in/out
+  fadePhase: number; // Position in the fade cycle
+  lifespan: number; // How long this speck lives before disappearing
+  age: number; // Current age of the speck
 }
 
 interface FloatingEmbersAnimationProps {
@@ -45,10 +42,10 @@ interface FloatingEmbersAnimationProps {
 }
 
 export default function FloatingEmbersAnimation({ 
-  maxEmbers = 40,
+  maxEmbers = 60,
   disableFlickering = false
 }: FloatingEmbersAnimationProps) {
-  const [embers, setEmbers] = useState<FloatingEmber[]>([]);
+  const [specks, setSpecks] = useState<FireSpeck[]>([]);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   
   // Initialize the animation
@@ -59,9 +56,9 @@ export default function FloatingEmbersAnimation({
       height: window.innerHeight
     });
     
-    // Create initial embers
-    const initialEmbers: FloatingEmber[] = Array.from({ length: maxEmbers }).map((_, index) => createRandomEmber(index));
-    setEmbers(initialEmbers);
+    // Create initial specks
+    const initialSpecks: FireSpeck[] = Array.from({ length: maxEmbers }).map((_, index) => createRandomSpeck(index));
+    setSpecks(initialSpecks);
     
     // Handle resize
     const handleResize = () => {
@@ -80,214 +77,120 @@ export default function FloatingEmbersAnimation({
     if (dimensions.width === 0) return;
     
     const animationFrame = requestAnimationFrame(() => {
-      setEmbers(currentEmbers => 
-        currentEmbers.map(ember => {
-          // Update position with slight wind effect (curved path)
-          let newY = ember.y + (ember.speed * ember.direction.y);
-          let newX = ember.x + (ember.speed * ember.direction.x) + (Math.sin(newY * 0.01) * 0.3);
+      setSpecks(currentSpecks => 
+        currentSpecks.map(speck => {
+          // Update position with gentle floating motion
+          let newY = speck.y + (speck.speed * speck.direction.y);
+          let newX = speck.x + (speck.speed * speck.direction.x) + (Math.sin(newY * 0.01) * 0.1);
           
           // Increase age
-          const newAge = ember.age + 0.016; // Roughly equivalent to deltaTime in seconds
+          const newAge = speck.age + 0.016; // Roughly equivalent to deltaTime in seconds
           
           // Calculate lifespan ratio (0 to 1, where 1 is end of life)
-          const lifespanRatio = newAge / ember.lifespan;
+          const lifespanRatio = newAge / speck.lifespan;
           
-          // Calculate base opacity - dims as ember ages
-          let newOpacity = Math.max(0, ember.opacity * (1 - lifespanRatio * 0.6));
+          // Calculate fade effect - sine wave to create fade in/out
+          const fadeEffect = Math.sin(speck.fadePhase) * 0.5 + 0.5;
           
-          // Reset ember if it's out of bounds or expired
-          if (newOpacity <= 0.05 || 
-              newX < -20 || newX > dimensions.width + 20 || 
-              newY < -20 || newY > dimensions.height + 20) {
-            return createRandomEmber(ember.id);
+          // Calculate combined opacity
+          let newOpacity = Math.max(0, speck.opacity * fadeEffect * (1 - lifespanRatio * 0.3));
+          
+          // Reset speck if it's out of bounds or expired
+          if (lifespanRatio >= 1 || 
+              newX < -10 || newX > dimensions.width + 10 || 
+              newY < -10 || newY > dimensions.height * 0.7) {
+            return createRandomSpeck(speck.id);
           }
           
-          // Calculate flickering effect
-          const flickerEffect = disableFlickering 
-            ? 1 
-            : 0.7 + (Math.sin(ember.flickerPhase) * 0.3) + (Math.sin(ember.flickerPhase * 2.5) * 0.15);
-          
-          // Update rotation
-          const newRotationAngle = (ember.rotationAngle + ember.rotationSpeed) % 360;
-          
-          // Update ember
+          // Update speck
           return {
-            ...ember,
+            ...speck,
             x: newX,
             y: newY,
             age: newAge,
-            opacity: newOpacity * flickerEffect,
-            flickerPhase: (ember.flickerPhase + ember.flickerSpeed) % (Math.PI * 2),
-            rotationAngle: newRotationAngle,
-            // Ember gets smaller as it rises and ages
-            size: ember.size * (1 - lifespanRatio * 0.3),
-            // Glow diminishes as ember ages
-            glowIntensity: ember.glowIntensity * (1 - lifespanRatio * 0.5)
+            opacity: newOpacity,
+            fadePhase: (speck.fadePhase + speck.fadeSpeed) % (Math.PI * 2),
+            // Speck stays the same size throughout lifespan
+            glowIntensity: speck.glowIntensity * fadeEffect
           };
         })
       );
     });
     
     return () => cancelAnimationFrame(animationFrame);
-  }, [embers, dimensions, disableFlickering]);
+  }, [specks, dimensions, disableFlickering]);
   
-  // Function to create a random ember
-  function createRandomEmber(id: number): FloatingEmber {
-    // Random direction - mostly upward, with slight side variation
-    const angleVariation = 0.2; // Variation from straight up (in radians)
-    const angle = Math.PI * 1.5 + (Math.random() * angleVariation * 2 - angleVariation);
+  // Function to create a random fire speck
+  function createRandomSpeck(id: number): FireSpeck {
+    // Position in the hero area, focused in the central area where text would be
+    const centerX = dimensions.width / 2;
+    const centerWidth = dimensions.width * 0.8; // 80% of screen width centered
+    
+    const x = centerX + (Math.random() - 0.5) * centerWidth;
+    const y = dimensions.height * (0.2 + Math.random() * 0.3); // Between 20% and 50% of screen height
+    
+    // Very gentle movement direction
+    const angle = Math.random() * Math.PI * 2; // Any direction
+    const speed = 0.1 + Math.random() * 0.2; // Very slow, gentle movement
     
     // Calculate direction vector
-    const directionX = Math.cos(angle);
-    const directionY = Math.sin(angle);
+    const directionX = Math.cos(angle) * speed;
+    const directionY = Math.sin(angle) * speed;
     
-    // Position near bottom, with horizontal variance
-    const x = Math.random() * dimensions.width;
-    const y = dimensions.height + Math.random() * 20; // Start slightly below screen
-    
-    // Pick a random color for the ember
-    const colorKeys = Object.keys(EMBER_COLORS) as (keyof typeof EMBER_COLORS)[];
+    // Pick a random color for the speck
+    const colorKeys = Object.keys(FIRE_COLORS) as (keyof typeof FIRE_COLORS)[];
     const colorKey = colorKeys[Math.floor(Math.random() * colorKeys.length)];
-    const color = EMBER_COLORS[colorKey];
+    const color = FIRE_COLORS[colorKey];
     
     // Pick a glow color
     const glowColorKeys = Object.keys(GLOW_COLORS) as (keyof typeof GLOW_COLORS)[];
     const glowColorKey = glowColorKeys[Math.floor(Math.random() * glowColorKeys.length)];
     const glowColor = GLOW_COLORS[glowColorKey];
     
-    // Create the ember with random properties
+    // Create the speck with random properties
     return {
       id,
       x,
       y,
-      size: 3 + Math.random() * 7, // Size between 3 and 10px for the ember core
-      opacity: 0.6 + Math.random() * 0.4, // Start fairly bright
-      speed: 0.5 + Math.random() * 1.0, // Speed between 0.5 and 1.5px per frame
-      direction: { x: directionX * 0.3, y: directionY },
+      size: 0.5 + Math.random() * 1.5, // Size between 0.5 and 2px for the core - small specks
+      opacity: 0.4 + Math.random() * 0.6, // Base opacity
+      speed,
+      direction: { x: directionX, y: directionY },
       color,
       glowColor,
-      glowIntensity: 0.6 + Math.random() * 0.4,
-      flickerSpeed: 0.05 + Math.random() * 0.15, // Faster flickering for fire effect
-      flickerPhase: Math.random() * Math.PI * 2, // Random starting phase
-      lifespan: 5 + Math.random() * 10, // Lifespan between 5 and 15 seconds
-      age: 0, // New ember
-      rotationAngle: Math.random() * 360,
-      rotationSpeed: (Math.random() - 0.5) * 3, // Faster rotation
-      variant: Math.floor(Math.random() * 3) // 0, 1, or 2 for different ember styles
+      glowIntensity: 0.3 + Math.random() * 0.5, // Subtle glow
+      fadeSpeed: 0.005 + Math.random() * 0.015, // Very slow fade cycle
+      fadePhase: Math.random() * Math.PI * 2, // Random starting phase in fade cycle
+      lifespan: 10 + Math.random() * 15, // Lifespan between 10 and 25 seconds
+      age: 0 // New speck
     };
   }
   
   return (
     <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-      {embers.map((ember) => (
+      {specks.map((speck) => (
         <div
-          key={ember.id}
+          key={speck.id}
           className="absolute"
           style={{
-            left: `${ember.x}px`,
-            top: `${ember.y}px`,
-            opacity: ember.opacity,
+            left: `${speck.x}px`,
+            top: `${speck.y}px`,
+            opacity: speck.opacity,
             willChange: 'transform, opacity',
-            transform: `translate(-50%, -50%) rotate(${ember.rotationAngle}deg)`,
-            transition: 'opacity 0.1s ease-in-out'
+            transform: `translate(-50%, -50%)`,
+            transition: 'opacity 0.5s ease-in-out'
           }}
         >
-          {/* SVG Ember */}
-          <svg 
-            width={ember.size * 8} 
-            height={ember.size * 8} 
-            viewBox="0 0 100 100" 
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            {/* Outer glow */}
-            <circle 
-              cx="50" 
-              cy="50" 
-              r="45"
-              fill={ember.glowColor}
-              opacity={0.15 * ember.glowIntensity} 
-              filter="blur(8px)"
-            />
-            
-            {/* Inner glow */}
-            <circle 
-              cx="50" 
-              cy="50" 
-              r="25"
-              fill={ember.glowColor}
-              opacity={0.25 * ember.glowIntensity} 
-              filter="blur(5px)"
-            />
-            
-            {/* Ember shape based on variant */}
-            {ember.variant === 0 && (
-              // Variant 0: Simple ember particle
-              <circle 
-                cx="50" 
-                cy="50" 
-                r="6"
-                fill={ember.color}
-                opacity={0.9} 
-              />
-            )}
-            
-            {ember.variant === 1 && (
-              // Variant 1: Irregular ember shape
-              <path
-                d={`M50,45 
-                   C${55 + Math.random() * 5},${40 + Math.random() * 5} 
-                    ${60 + Math.random() * 5},${45 + Math.random() * 5} 
-                    ${55 + Math.random() * 5},${50 + Math.random() * 5} 
-                   C${60 + Math.random() * 5},${55 + Math.random() * 5} 
-                    ${55 + Math.random() * 5},${60 + Math.random() * 5} 
-                    ${50 + Math.random() * 5},${55 + Math.random() * 5}
-                   C${45 + Math.random() * 5},${60 + Math.random() * 5} 
-                    ${40 + Math.random() * 5},${55 + Math.random() * 5} 
-                    ${45 + Math.random() * 5},${50 + Math.random() * 5}
-                   C${40 + Math.random() * 5},${45 + Math.random() * 5} 
-                    ${45 + Math.random() * 5},${40 + Math.random() * 5} 
-                    ${50 + Math.random() * 5},${45 + Math.random() * 5}`}
-                fill={ember.color}
-                opacity={0.9}
-              />
-            )}
-            
-            {ember.variant === 2 && (
-              // Variant 2: Spark with trailing particles
-              <>
-                <circle 
-                  cx="50" 
-                  cy="50" 
-                  r="5"
-                  fill={ember.color}
-                  opacity={0.9} 
-                />
-                <circle 
-                  cx="45" 
-                  cy="55" 
-                  r="3"
-                  fill={ember.color}
-                  opacity={0.6} 
-                />
-                <circle 
-                  cx="40" 
-                  cy="60" 
-                  r="2"
-                  fill={ember.color}
-                  opacity={0.4} 
-                />
-              </>
-            )}
-            
-            {/* Bright center */}
-            <circle 
-              cx="50" 
-              cy="50" 
-              r="3"
-              fill={EMBER_COLORS.YELLOW}
-              opacity={0.9 * ember.glowIntensity} 
-            />
-          </svg>
+          {/* Simple dot for fire specks */}
+          <div
+            style={{
+              width: `${speck.size}px`,
+              height: `${speck.size}px`,
+              borderRadius: '50%',
+              backgroundColor: speck.color,
+              boxShadow: `0 0 ${speck.size * 3}px ${speck.glowColor}`,
+            }}
+          />
         </div>
       ))}
     </div>
