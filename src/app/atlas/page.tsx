@@ -32,43 +32,43 @@ export default function AtlasPage() {
         <style jsx>{`
           .stars-background {
             background-image: 
-              radial-gradient(2px 2px at 20px 30px, rgba(161, 123, 255, 0.6), rgba(161, 123, 255, 0)),
-              radial-gradient(2px 2px at 40px 70px, rgba(161, 123, 255, 0.5), rgba(161, 123, 255, 0)),
-              radial-gradient(3px 3px at 120px 40px, rgba(161, 123, 255, 0.6), rgba(161, 123, 255, 0)),
-              radial-gradient(1px 1px at 140px 90px, rgba(161, 123, 255, 0.6), rgba(161, 123, 255, 0)),
-              radial-gradient(2px 2px at 230px 150px, rgba(161, 123, 255, 0.5), rgba(161, 123, 255, 0)),
-              radial-gradient(2px 2px at 420px 190px, rgba(161, 123, 255, 0.6), rgba(161, 123, 255, 0)),
-              radial-gradient(3px 3px at 350px 290px, rgba(161, 123, 255, 0.6), rgba(161, 123, 255, 0)),
-              radial-gradient(1px 1px at 390px 320px, rgba(161, 123, 255, 0.5), rgba(161, 123, 255, 0)),
-              radial-gradient(3px 3px at 450px 380px, rgba(161, 123, 255, 0.6), rgba(161, 123, 255, 0)),
-              radial-gradient(2px 2px at 520px 400px, rgba(161, 123, 255, 0.5), rgba(161, 123, 255, 0)),
-              radial-gradient(3px 3px at 600px 350px, rgba(161, 123, 255, 0.6), rgba(161, 123, 255, 0)),
-              radial-gradient(1px 1px at 550px 290px, rgba(161, 123, 255, 0.6), rgba(161, 123, 255, 0)),
-              radial-gradient(2px 2px at 700px 370px, rgba(161, 123, 255, 0.5), rgba(161, 123, 255, 0)),
-              radial-gradient(2px 2px at 250px 350px, rgba(161, 123, 255, 0.6), rgba(161, 123, 255, 0)),
-              radial-gradient(3px 3px at 300px 370px, rgba(161, 123, 255, 0.6), rgba(161, 123, 255, 0)),
-              radial-gradient(1px 1px at 320px 400px, rgba(161, 123, 255, 0.5), rgba(161, 123, 255, 0)),
-              radial-gradient(3px 3px at 900px 300px, rgba(161, 123, 255, 0.6), rgba(161, 123, 255, 0)),
-              radial-gradient(2px 2px at 830px 350px, rgba(161, 123, 255, 0.5), rgba(161, 123, 255, 0)),
-              radial-gradient(3px 3px at 950px 380px, rgba(161, 123, 255, 0.6), rgba(161, 123, 255, 0)),
-              radial-gradient(1px 1px at 1000px 400px, rgba(161, 123, 255, 0.6), rgba(161, 123, 255, 0));
+              radial-gradient(2px 2px at 20px 30px, rgba(161, 123, 255, 0.9), rgba(161, 123, 255, 0)),
+              radial-gradient(2px 2px at 40px 70px, rgba(161, 123, 255, 0.85), rgba(161, 123, 255, 0)),
+              radial-gradient(3px 3px at 120px 40px, rgba(161, 123, 255, 0.9), rgba(161, 123, 255, 0)),
+              radial-gradient(1px 1px at 140px 90px, rgba(161, 123, 255, 0.9), rgba(161, 123, 255, 0)),
+              radial-gradient(2px 2px at 230px 150px, rgba(161, 123, 255, 0.85), rgba(161, 123, 255, 0)),
+              radial-gradient(2px 2px at 420px 190px, rgba(161, 123, 255, 0.9), rgba(161, 123, 255, 0)),
+              radial-gradient(3px 3px at 350px 290px, rgba(161, 123, 255, 0.9), rgba(161, 123, 255, 0)),
+              radial-gradient(1px 1px at 390px 320px, rgba(161, 123, 255, 0.85), rgba(161, 123, 255, 0)),
+              radial-gradient(3px 3px at 450px 380px, rgba(161, 123, 255, 0.9), rgba(161, 123, 255, 0)),
+              radial-gradient(2px 2px at 520px 400px, rgba(161, 123, 255, 0.85), rgba(161, 123, 255, 0)),
+              radial-gradient(3px 3px at 600px 350px, rgba(161, 123, 255, 0.9), rgba(161, 123, 255, 0)),
+              radial-gradient(1px 1px at 550px 290px, rgba(161, 123, 255, 0.9), rgba(161, 123, 255, 0)),
+              radial-gradient(2px 2px at 700px 370px, rgba(161, 123, 255, 0.85), rgba(161, 123, 255, 0)),
+              radial-gradient(2px 2px at 250px 350px, rgba(161, 123, 255, 0.9), rgba(161, 123, 255, 0)),
+              radial-gradient(3px 3px at 300px 370px, rgba(161, 123, 255, 0.9), rgba(161, 123, 255, 0)),
+              radial-gradient(1px 1px at 320px 400px, rgba(161, 123, 255, 0.85), rgba(161, 123, 255, 0)),
+              radial-gradient(3px 3px at 900px 300px, rgba(161, 123, 255, 0.9), rgba(161, 123, 255, 0)),
+              radial-gradient(2px 2px at 830px 350px, rgba(161, 123, 255, 0.85), rgba(161, 123, 255, 0)),
+              radial-gradient(3px 3px at 950px 380px, rgba(161, 123, 255, 0.9), rgba(161, 123, 255, 0)),
+              radial-gradient(1px 1px at 1000px 400px, rgba(161, 123, 255, 0.9), rgba(161, 123, 255, 0));
             background-size: 1000px 1000px;
             animation: twinkle 30s ease-in-out infinite alternate;
-            opacity: 0.3;
+            opacity: 0.5;
           }
           
           @keyframes twinkle {
             0% {
               background-position: 0 0;
-              opacity: 0.2;
+              opacity: 0.4;
             }
             50% {
               background-position: -50px -50px;
-              opacity: 0.4;
+              opacity: 0.6;
             }
             100% {
               background-position: -100px -100px;
-              opacity: 0.2;
+              opacity: 0.4;
             }
           }
         `}</style>
