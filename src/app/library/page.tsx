@@ -1,6 +1,6 @@
 import MainLayout from '@/components/layout/MainLayout';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
-import { BookOpen, ExternalLink, BookMarked, ScrollText, Calculator, Skull } from 'lucide-react';
+import { BookOpen, ExternalLink, BookMarked, ScrollText, Calculator, Skull, Moon, FlaskConical, Brain, Gem, Wand } from 'lucide-react';
 import Link from 'next/link';
 
 const books = [
@@ -61,29 +61,47 @@ const books = [
   {
     id: 'emerald-tablet',
     title: 'The Emerald Tablet',
-    author: 'Hermes Trismegistus (attributed)',
-    description: 'A cryptic text said to contain the secret of the prima materia and its transmutation, foundational to alchemy.',
+    author: 'Hermes Trismegistus',
+    description: 'The legendary alchemical text containing the secret of the primordial substance and its transmutations.',
     category: 'Alchemy',
-    year: 'c. 600-800 CE',
-    icon: <ScrollText className="w-8 h-8 text-accent" />
+    year: 'Antiquity',
+    icon: <FlaskConical className="w-8 h-8 text-accent" />
   },
   {
-    id: 'rosicrucian-manifestos',
-    title: 'The Rosicrucian Manifestos',
-    author: 'Johann Valentin Andreae (attributed)',
-    description: 'The Fama and Confessio Fraternitatis - anonymous manifestos announcing a mysterious esoteric order.',
-    category: 'Rosicrucianism',
-    year: '1614-1615',
+    id: 'grimoires',
+    title: 'Grimoires & Black Books',
+    author: 'Various Occultists',
+    description: 'The forbidden manuscripts of ritual magic that claim to grant power over spirits, demons, and the forces of nature.',
+    category: 'Ceremonial Magic',
+    year: 'Medieval - Renaissance',
     icon: <BookMarked className="w-8 h-8 text-accent" />
   },
   {
     id: 'golem',
     title: 'The Golem',
     author: 'Jewish Mystical Tradition',
-    description: 'Accounts of artificial anthropomorphic beings created from clay and animated through sacred Hebrew incantations and rituals.',
+    description: 'Animate beings created from inanimate matter through ritual and sacred words in Jewish mystical traditions.',
     category: 'Jewish Mysticism',
-    year: '16th Century CE',
-    icon: <Skull className="w-8 h-8 text-accent" />
+    year: 'Medieval - Modern',
+    icon: <Brain className="w-8 h-8 text-accent" />
+  },
+  {
+    id: 'qliphoth',
+    title: 'The Qliphoth',
+    author: 'Kabbalistic Tradition',
+    description: 'The shadow side of the Kabbalistic Tree of Life, representing the dark forces and "shells" left after the withdrawal of divine light.',
+    category: 'Dark Kabbalah',
+    year: 'Medieval - Modern',
+    icon: <Moon className="w-8 h-8 text-accent" />
+  },
+  {
+    id: 'necronomicon',
+    title: 'The Necronomicon',
+    author: 'Abdul Alhazred (fictional)',
+    description: 'A fictional grimoire invented by H.P. Lovecraft, said to contain knowledge to summon eldritch cosmic entities.',
+    category: 'Fictional Grimoire',
+    year: '20th Century',
+    icon: <BookOpen className="w-8 h-8 text-accent" />
   }
 ];
 
