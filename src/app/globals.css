@@ -191,6 +191,20 @@ html {
     z-index: -10;
   }
   
+  /* Slow spinning animation */
+  .animate-spin-slow {
+    animation: spin 20s linear infinite;
+  }
+  
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
   /* Mystical glow effect */
   .mystical-glow {
     position: relative;

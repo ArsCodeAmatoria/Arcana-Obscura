@@ -4,7 +4,6 @@ import MainLayout from '@/components/layout/MainLayout';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { BookOpen, ExternalLink, BookMarked, ScrollText, Calculator, Skull, Moon, FlaskConical, Brain, Gem, Wand, Zap, Eye, Rocket } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useRef } from 'react';
 
 const books = [
   {
@@ -154,86 +153,65 @@ const books = [
 ];
 
 export default function LibraryPage() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    
-    const stars: Array<{x: number, y: number, size: number, opacity: number, speed: number}> = [];
-    
-    // Set canvas dimensions to match parent container
-    const resizeCanvas = () => {
-      const container = canvas.parentElement;
-      if (container) {
-        canvas.width = container.offsetWidth;
-        canvas.height = container.offsetHeight;
-        // Recreate stars after resize
-        createStars();
-      }
-    };
-    
-    // Create initial stars
-    const createStars = () => {
-      stars.length = 0; // Clear existing stars
-      const maxStars = Math.floor((canvas.width * canvas.height) / 4000); // Adjust density
-      
-      for (let i = 0; i < maxStars; i++) {
-        stars.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          size: Math.random() * 1.5 + 0.5, // 0.5 to 2
-          opacity: Math.random() * 0.8 + 0.2, // 0.2 to 1
-          speed: Math.random() * 0.05 + 0.01 // How fast the star twinkles
-        });
-      }
-    };
-    
-    // Animation loop
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      // Draw each star
-      stars.forEach(star => {
-        ctx.beginPath();
-        
-        // Twinkle effect by changing opacity
-        star.opacity += Math.sin(Date.now() * star.speed) * 0.02;
-        star.opacity = Math.max(0.1, Math.min(1, star.opacity));
-        
-        // Draw the star
-        ctx.fillStyle = `rgba(255, 233, 174, ${star.opacity})`;
-        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-        ctx.fill();
-      });
-      
-      requestAnimationFrame(animate);
-    };
-    
-    // Initial setup
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-    animate();
-    
-    // Cleanup
-    return () => {
-      window.removeEventListener('resize', resizeCanvas);
-    };
-  }, []);
-
   return (
     <MainLayout>
-      <div className="container mx-auto px-4 py-12">
-        {/* Twinkling stars animation */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <canvas 
-            ref={canvasRef} 
-            className="absolute top-0 left-0 w-full h-full opacity-60"
-          />
-        </div>
+      <div className="container mx-auto px-4 py-12 relative">
+        {/* Simple stars background */}
+        <div className="stars-background absolute inset-0 overflow-hidden pointer-events-none"></div>
+        
+        <style jsx>{`
+          .stars-background {
+            background-image: 
+              radial-gradient(2px 2px at 20px 30px, rgba(255, 233, 174, 0.9), rgba(255, 233, 174, 0)),
+              radial-gradient(2px 2px at 40px 70px, rgba(255, 233, 174, 0.8), rgba(255, 233, 174, 0)),
+              radial-gradient(3px 3px at 120px 40px, rgba(255, 233, 174, 0.7), rgba(255, 233, 174, 0)),
+              radial-gradient(1px 1px at 140px 90px, rgba(255, 233, 174, 0.9), rgba(255, 233, 174, 0)),
+              radial-gradient(2px 2px at 230px 150px, rgba(255, 233, 174, 0.8), rgba(255, 233, 174, 0)),
+              radial-gradient(2px 2px at 420px 190px, rgba(255, 233, 174, 0.7), rgba(255, 233, 174, 0)),
+              radial-gradient(3px 3px at 350px 290px, rgba(255, 233, 174, 0.9), rgba(255, 233, 174, 0)),
+              radial-gradient(1px 1px at 390px 320px, rgba(255, 233, 174, 0.8), rgba(255, 233, 174, 0)),
+              radial-gradient(3px 3px at 450px 380px, rgba(255, 233, 174, 0.9), rgba(255, 233, 174, 0)),
+              radial-gradient(2px 2px at 520px 400px, rgba(255, 233, 174, 0.8), rgba(255, 233, 174, 0)),
+              radial-gradient(3px 3px at 600px 350px, rgba(255, 233, 174, 0.7), rgba(255, 233, 174, 0)),
+              radial-gradient(1px 1px at 550px 290px, rgba(255, 233, 174, 0.9), rgba(255, 233, 174, 0)),
+              radial-gradient(2px 2px at 700px 370px, rgba(255, 233, 174, 0.8), rgba(255, 233, 174, 0)),
+              radial-gradient(2px 2px at 250px 350px, rgba(255, 233, 174, 0.7), rgba(255, 233, 174, 0)),
+              radial-gradient(3px 3px at 300px 370px, rgba(255, 233, 174, 0.9), rgba(255, 233, 174, 0)),
+              radial-gradient(1px 1px at 320px 400px, rgba(255, 233, 174, 0.8), rgba(255, 233, 174, 0)),
+              radial-gradient(3px 3px at 900px 300px, rgba(255, 233, 174, 0.9), rgba(255, 233, 174, 0)),
+              radial-gradient(2px 2px at 830px 350px, rgba(255, 233, 174, 0.8), rgba(255, 233, 174, 0)),
+              radial-gradient(3px 3px at 950px 380px, rgba(255, 233, 174, 0.7), rgba(255, 233, 174, 0)),
+              radial-gradient(1px 1px at 1000px 400px, rgba(255, 233, 174, 0.9), rgba(255, 233, 174, 0)),
+              radial-gradient(2px 2px at 750px 100px, rgba(255, 233, 174, 0.8), rgba(255, 233, 174, 0)),
+              radial-gradient(3px 3px at 800px 150px, rgba(255, 233, 174, 0.7), rgba(255, 233, 174, 0)),
+              radial-gradient(1px 1px at 750px 200px, rgba(255, 233, 174, 0.9), rgba(255, 233, 174, 0)),
+              radial-gradient(2px 2px at 850px 90px, rgba(255, 233, 174, 0.8), rgba(255, 233, 174, 0)),
+              radial-gradient(3px 3px at 650px 130px, rgba(255, 233, 174, 0.7), rgba(255, 233, 174, 0)),
+              radial-gradient(1px 1px at 600px 200px, rgba(255, 233, 174, 0.9), rgba(255, 233, 174, 0)),
+              radial-gradient(2px 2px at 550px 150px, rgba(255, 233, 174, 0.8), rgba(255, 233, 174, 0)),
+              radial-gradient(3px 3px at 500px 100px, rgba(255, 233, 174, 0.7), rgba(255, 233, 174, 0)),
+              radial-gradient(1px 1px at 950px 190px, rgba(255, 233, 174, 0.9), rgba(255, 233, 174, 0)),
+              radial-gradient(2px 2px at 1000px 150px, rgba(255, 233, 174, 0.8), rgba(255, 233, 174, 0));
+            background-size: 1000px 1000px;
+            animation: twinkle 20s ease-in-out infinite alternate;
+            opacity: 0.6;
+          }
+          
+          @keyframes twinkle {
+            0% {
+              background-position: 0 0;
+              opacity: 0.5;
+            }
+            50% {
+              background-position: -50px -50px;
+              opacity: 0.7;
+            }
+            100% {
+              background-position: -100px -100px;
+              opacity: 0.5;
+            }
+          }
+        `}</style>
 
         <div className="text-center mb-12 relative">
           <div className="relative inline-block mb-4">
