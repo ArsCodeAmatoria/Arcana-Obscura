@@ -27,13 +27,14 @@
     "next-mdx-remote": "^4.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^5.5.0",
     "react-leaflet": "^4.2.1",
     "react-simple-maps": "^3.0.0",
     "tailwind-merge": "^1.14.0",
+    "tailwindcss-animate": "^1.0.7",
     "three": "^0.175.0",
     "topojson-client": "^3.1.0",
-    "tw-animate-css": "^1.2.5",
-    "tailwindcss-animate": "^1.0.7"
+    "tw-animate-css": "^1.2.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

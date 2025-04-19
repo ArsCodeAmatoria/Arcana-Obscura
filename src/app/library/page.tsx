@@ -2,7 +2,7 @@
 
 import MainLayout from '@/components/layout/MainLayout';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
-import { BookOpen, ExternalLink, BookMarked, ScrollText, Calculator, Skull, Moon, FlaskConical, Brain, Gem, Wand, Zap, Eye, Rocket, Code } from 'lucide-react';
+import { BookOpen, ExternalLink, BookMarked, ScrollText, Calculator, Skull, Moon, FlaskConical, Brain, Gem, Wand, Zap, Eye, Rocket, Code, Globe, Users, Database } from 'lucide-react';
 import Link from 'next/link';
 
 const books = [
@@ -158,6 +158,33 @@ const books = [
     category: 'Programming',
     year: '1990 - Present',
     icon: <Code className="w-8 h-8 text-accent" />
+  },
+  {
+    id: 'saturn-matrix',
+    title: 'The Saturn Matrix',
+    author: 'Contemporary Esoteric Theory',
+    description: 'A contemporary esoteric belief system proposing that humanity exists within a simulated reality controlled by Saturn and maintained by interdimensional entities.',
+    category: 'Conspiracy Theory',
+    year: 'Contemporary',
+    icon: <Database className="w-8 h-8 text-accent" />
+  },
+  {
+    id: 'book-of-alien-races',
+    title: 'Book of Alien Races: Secret Russian KGB',
+    author: 'Alleged Soviet Intelligence',
+    description: 'A controversial document claiming to catalog extraterrestrial species encountered by Soviet intelligence during the Cold War era.',
+    category: 'Ufology',
+    year: '1990s - Present',
+    icon: <Users className="w-8 h-8 text-accent" />
+  },
+  {
+    id: 'universalism',
+    title: 'Universalism',
+    author: 'Various Philosophers & Theologians',
+    description: 'The philosophical and religious doctrine that emphasizes universal reconciliation and the ultimate harmony of all beings with the divine or cosmic order.',
+    category: 'Spiritual Philosophy',
+    year: 'Ancient - Present',
+    icon: <Globe className="w-8 h-8 text-accent" />
   }
 ];
 
