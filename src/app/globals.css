@@ -112,21 +112,7 @@ html {
     position: relative;
   }
 
-  /* Cosmic stars background effect */
-  body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: radial-gradient(white, rgba(255, 255, 255, 0) 2px);
-    background-size: 150px 150px; /* More spread out stars */
-    background-position: 0 0, 50px 50px;
-    opacity: 0.02; /* Reduced opacity further from 0.03 */
-    pointer-events: none;
-    z-index: -1;
-  }
+  /* Cosmic stars background effect removed */
 
   /* Custom Scrollbar */
   ::-webkit-scrollbar {
