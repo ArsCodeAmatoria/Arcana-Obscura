@@ -44,43 +44,52 @@
 
 :root {
   --radius: 0.5rem;
-  --background: 240 15% 4%;
-  --foreground: 0 0% 95%;
-  --card: 240 15% 8%;
-  --card-foreground: 0 0% 95%;
-  --popover: 240 15% 6%;
-  --popover-foreground: 0 0% 95%;
-  --primary: 264 76% 55%;  /* Enhanced purple */
-  --primary-foreground: 0 0% 95%;
-  --secondary: 346 83% 32%; /* Enhanced rose */
-  --secondary-foreground: 0 0% 95%;
-  --muted: 240 8% 15%;
-  --muted-foreground: 0 0% 70%;
-  --accent: 45 100% 60%;   /* Enhanced gold */
+  --background: 240 15% 3%;
+  --foreground: 0 0% 65%;  /* Reduced from 80% to 65% */
+  --card: 240 15% 6%;
+  --card-foreground: 0 0% 65%;  /* Reduced from 80% to 65% */
+  --popover: 240 15% 5%;
+  --popover-foreground: 0 0% 65%;  /* Reduced from 80% to 65% */
+  --primary: 264 76% 45%;  /* Darker purple */
+  --primary-foreground: 0 0% 70%;  /* Reduced from 80% to 70% */
+  --secondary: 346 83% 28%; /* Darker rose */
+  --secondary-foreground: 0 0% 70%;  /* Reduced from 80% to 70% */
+  --muted: 240 8% 12%;
+  --muted-foreground: 0 0% 50%;  /* Reduced from 60% to 50% */
+  --accent: 45 80% 50%;   /* Subdued gold */
   --accent-foreground: 240 20% 3%;
-  --destructive: 0 80% 45%;
-  --destructive-foreground: 0 0% 95%;
-  --border: 240 8% 8%;      /* Darker gray for borders */
-  --input: 240 8% 12%;
-  --ring: 45 100% 60%;
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
+  --destructive: 0 80% 40%;
+  --destructive-foreground: 0 0% 70%;  /* Reduced from 80% to 70% */
+  --border: 240 8% 10%;      /* Even darker borders */
+  --input: 240 8% 10%;
+  --ring: 45 80% 50%;
+  --chart-1: oklch(0.546 0.192 41.116);
+  --chart-2: oklch(0.5 0.1 184.704);
+  --chart-3: oklch(0.348 0.06 227.392);
+  --chart-4: oklch(0.728 0.159 84.429);
+  --chart-5: oklch(0.669 0.158 70.08);
+  --sidebar: oklch(0.884 0.003 247.858);
   --sidebar-foreground: oklch(0.129 0.042 264.695);
   --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
+  --sidebar-primary-foreground: oklch(0.884 0.003 247.858);
+  --sidebar-accent: oklch(0.868 0.007 247.896);
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
+  --sidebar-border: oklch(0.829 0.013 255.508);
+  --sidebar-ring: oklch(0.604 0.04 256.788);
   
   /* New theme colors */
-  --tertiary: 200 100% 60%;  /* Mystical blue */
-  --quaternary: 160 70% 40%; /* Emerald green */
-  --highlight: 320 70% 60%;  /* Magic pink */
+  --tertiary: 200 80% 50%;  /* Subdued blue */
+  --quaternary: 160 60% 35%; /* Darker emerald */
+  --highlight: 320 60% 50%;  /* Subdued pink */
+  
+  /* New grayscale colors */
+  --gray-100: 240 10% 10%;
+  --gray-200: 240 10% 15%;
+  --gray-300: 240 10% 20%;
+  --gray-400: 240 8% 30%;
+  --gray-500: 240 5% 40%;
+  --gray-600: 240 5% 50%;
+  --gray-700: 240 5% 60%;
 }
 
 /* No need for .dark class selector as we're always in dark mode */
@@ -95,8 +104,8 @@ html {
   body {
     @apply bg-background text-foreground;
     background-image: 
-      linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)),
-      url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='rgba(255,255,255,0.03)' fill-rule='evenodd'/%3E%3C/svg%3E");
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7)),
+      url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='rgba(255,255,255,0.02)' fill-rule='evenodd'/%3E%3C/svg%3E");
     background-attachment: fixed;
     position: relative;
   }
@@ -110,9 +119,9 @@ html {
     width: 100%;
     height: 100%;
     background-image: radial-gradient(white, rgba(255, 255, 255, 0) 2px);
-    background-size: 100px 100px;
+    background-size: 150px 150px; /* More spread out stars */
     background-position: 0 0, 50px 50px;
-    opacity: 0.05;
+    opacity: 0.02; /* Reduced opacity further from 0.03 */
     pointer-events: none;
     z-index: -1;
   }
@@ -204,18 +213,18 @@ html {
   
   /* Text drop shadow glow */
   .drop-shadow-glow {
-    text-shadow: 0 0 10px hsl(var(--accent) / 0.5),
-                 0 0 20px hsl(var(--accent) / 0.3),
-                 0 0 30px hsl(var(--accent) / 0.2);
+    text-shadow: 0 0 8px hsl(var(--accent) / 0.3),
+                 0 0 15px hsl(var(--accent) / 0.2),
+                 0 0 25px hsl(var(--accent) / 0.1);
   }
   
   /* Pillar card styling */
   .pillar-card {
     background-color: hsl(var(--card));
-    border: 1px solid hsl(var(--border));
+    border: 1px solid hsl(var(--border) / 0.7) !important; /* Reduced border visibility */
     border-radius: 0.5rem;
     padding: 1.5rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Subtle shadow */
     position: relative;
     overflow: hidden;
     transition: all 0.3s ease;
@@ -234,10 +243,10 @@ html {
   }
   
   .pillar-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7), 
-                0 0 15px hsl(var(--primary) / 0.3),
-                0 0 30px hsl(var(--accent) / 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), 
+                0 0 10px hsl(var(--primary) / 0.2),
+                0 0 20px hsl(var(--accent) / 0.05);
   }
   
   .pillar-card:hover::before {
@@ -249,6 +258,8 @@ html {
     position: relative;
     transition: all 0.3s ease;
     overflow: hidden;
+    border-color: hsl(var(--border) / 0.7) !important; /* Reduced border visibility */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Subtle shadow */
   }
 
   .card-glow::after {
@@ -260,9 +271,9 @@ html {
     height: 100%;
     background: linear-gradient(45deg, 
       transparent, 
-      hsl(var(--primary) / 0.05) 45%, 
-      hsl(var(--accent) / 0.1) 50%, 
-      hsl(var(--primary) / 0.05) 55%, 
+      hsl(var(--primary) / 0.03) 45%, 
+      hsl(var(--accent) / 0.05) 50%, 
+      hsl(var(--primary) / 0.03) 55%, 
       transparent);
     transform: translateX(-100%);
     transition: transform 0.6s;
@@ -275,9 +286,9 @@ html {
   /* Text gradient effect */
   .text-gradient {
     background: linear-gradient(to right, 
-      hsl(var(--accent)), 
-      hsl(var(--primary)), 
-      hsl(var(--secondary)));
+      hsl(var(--accent) / 0.9), 
+      hsl(var(--primary) / 0.8), 
+      hsl(var(--secondary) / 0.8));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -288,9 +299,9 @@ html {
   /* Hover gradient effect */
   .hover\:text-gradient:hover {
     background: linear-gradient(to right, 
-      hsl(var(--accent)), 
-      hsl(var(--primary)), 
-      hsl(var(--secondary)));
+      hsl(var(--accent) / 0.9), 
+      hsl(var(--primary) / 0.8), 
+      hsl(var(--secondary) / 0.8));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -306,13 +317,44 @@ html {
   
   /* Icon glow effect */
   .icon-glow {
-    filter: drop-shadow(0 0 5px hsl(var(--accent) / 0.5));
+    filter: drop-shadow(0 0 3px hsl(var(--accent) / 0.3));
     transition: all 0.3s ease;
   }
   
   .icon-glow:hover {
-    filter: drop-shadow(0 0 8px hsl(var(--accent) / 0.8));
-    transform: scale(1.1);
+    filter: drop-shadow(0 0 5px hsl(var(--accent) / 0.5));
+    transform: scale(1.05);
+  }
+  
+  /* Grayscale text utilities */
+  .text-gray-100 {
+    color: hsl(var(--gray-100));
+  }
+  .text-gray-200 {
+    color: hsl(var(--gray-200));
+  }
+  .text-gray-300 {
+    color: hsl(var(--gray-300));
+  }
+  .text-gray-400 {
+    color: hsl(var(--gray-400));
+  }
+  .text-gray-500 {
+    color: hsl(var(--gray-500));
+  }
+  .text-gray-600 {
+    color: hsl(var(--gray-600));
+  }
+  .text-gray-700 {
+    color: hsl(var(--gray-700));
+  }
+  
+  /* Subtle text effect */
+  .text-subtle {
+    color: hsl(var(--foreground) / 0.7);
+  }
+  .text-very-subtle {
+    color: hsl(var(--foreground) / 0.5);
   }
 }
 
@@ -320,4 +362,18 @@ html {
 .font-esoterica {
   font-family: var(--font-esoterica), serif;
   letter-spacing: 0.02em;
+}
+
+/* Add subtle animation for links */
+a {
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+a:hover {
+  opacity: 0.9;
+}
+
+/* Add subtle backdrop blur for better text readability */
+.backdrop-blur-subtle {
+  backdrop-filter: blur(3px);
 }

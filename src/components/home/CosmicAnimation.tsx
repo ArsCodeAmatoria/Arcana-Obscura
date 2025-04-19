@@ -1,280 +1,405 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
-import { useFrame, Canvas } from '@react-three/fiber';
-import { Stars, OrbitControls, Text } from '@react-three/drei';
-import { Object3D, Line, BufferGeometry, Material } from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-// Types for our custom components
-interface OrbitingSphereProps {
-  radius: number;
-  speed: number;
-  offset: number;
-  size: number;
-  color: string;
+interface CosmicAnimationProps {
+  initialLowPerformance?: boolean;
+  onError?: () => void;
 }
 
-interface FloatingSymbolProps {
-  symbol: string;
-  position: [number, number, number];
-  rotation: [number, number, number];
-  speed: number;
-}
-
-// Simple component for 2D fallback when WebGL fails
-function FallbackCanvas() {
-  return (
-    <div className="w-full h-full bg-[#050510] flex flex-col items-center justify-center">
-      <div className="relative w-64 h-64">
-        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-          <circle cx="100" cy="100" r="80" stroke="hsl(45 100% 60%)" strokeWidth="0.5" />
-          <circle cx="100" cy="100" r="50" stroke="hsl(45 100% 60%)" strokeWidth="0.5" />
-          <circle cx="100" cy="100" r="30" stroke="hsl(45 100% 60%)" strokeWidth="0.5" />
-          
-          <path d="M 100 20 L 100 180" stroke="hsl(45 100% 60%)" strokeWidth="0.2" opacity="0.5" />
-          <path d="M 20 100 L 180 100" stroke="hsl(45 100% 60%)" strokeWidth="0.2" opacity="0.5" />
-          
-          <text x="96" y="40" fill="hsl(45 100% 60%)" fontSize="8" fontFamily="serif">☿</text>
-          <text x="160" y="100" fill="hsl(45 100% 60%)" fontSize="8" fontFamily="serif">☽</text>
-          <text x="96" y="170" fill="hsl(45 100% 60%)" fontSize="8" fontFamily="serif">⊕</text>
-          <text x="40" y="100" fill="hsl(45 100% 60%)" fontSize="8" fontFamily="serif">♄</text>
-          
-          <g className="animate-pulse">
-            <path d="M 100 70 L 120 120 L 80 120 Z" stroke="hsl(45 100% 60%)" strokeWidth="0.5" fill="none" />
-          </g>
-        </svg>
-      </div>
-      <p className="text-accent mt-6 font-esoterica">Arcana Obscura</p>
-      <p className="text-sm text-muted-foreground mt-2">Illuminating the Secret Teachings of All Ages</p>
-    </div>
-  );
-}
-
-// Golden Ratio spiral points generator with minimal points
-function goldenSpiralPoints(turns = 2, pointsPerTurn = 10) {
-  const points = [];
-  const totalPoints = turns * pointsPerTurn;
-  const goldenRatio = 1.618033988749895;
-  
-  for (let i = 0; i < totalPoints; i++) {
-    const angle = i * (2 * Math.PI / pointsPerTurn);
-    const radius = Math.pow(goldenRatio, i / pointsPerTurn) * 0.1;
-    const x = radius * Math.cos(angle);
-    const y = radius * Math.sin(angle);
-    const z = i * 0.005;
-    points.push(new THREE.Vector3(x, y, z));
-  }
-  
-  return points;
-}
-
-function CelestialSphere() {
-  const meshRef = useRef<THREE.Mesh>(null);
-  
-  useFrame(({ clock }) => {
-    if (meshRef.current) {
-      // Very slow rotation to minimize GPU work
-      meshRef.current.rotation.y = clock.getElapsedTime() * 0.05;
-    }
-  });
-
-  return (
-    <mesh ref={meshRef} position={[0, 0, 0]}>
-      {/* Highly simplified geometry */}
-      <sphereGeometry args={[2.5, 16, 16]} />
-      <meshBasicMaterial
-        color="#271a45"
-        wireframe
-      />
-    </mesh>
-  );
-}
-
-function GoldenSpiral() {
-  const spiralRef = useRef<THREE.Line>(null);
-  const points = goldenSpiralPoints(); // Use defaults for minimal points
-  
-  useFrame(({ clock }) => {
-    if (spiralRef.current) {
-      // Static rotation that changes very slowly
-      spiralRef.current.rotation.y = clock.getElapsedTime() * 0.03;
-    }
-  });
-  
-  return (
-    <line ref={spiralRef}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          array={new Float32Array(points.flatMap(p => [p.x, p.y, p.z]))}
-          count={points.length}
-          itemSize={3}
-        />
-      </bufferGeometry>
-      <lineBasicMaterial color="#ffd700" />
-    </line>
-  );
-}
-
-function MysticalSymbols() {
-  const groupRef = useRef<THREE.Group>(null);
-  
-  useFrame(({ clock }) => {
-    if (groupRef.current) {
-      // Barely any movement to minimize GPU work
-      groupRef.current.rotation.y = Math.sin(clock.getElapsedTime() * 0.1) * 0.05;
-    }
-  });
-
-  return (
-    <group ref={groupRef}>
-      {/* Simplified pentagram */}
-      <mesh position={[0, 0.5, 0]} rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[0.8, 0.03, 5, 5]} />
-        <meshBasicMaterial color="#ffd700" />
-      </mesh>
-      
-      {/* Eye symbol - very simplified */}
-      <mesh position={[0, 0, 0]}>
-        <sphereGeometry args={[0.2, 8, 8]} />
-        <meshBasicMaterial color="#ffd700" />
-      </mesh>
-
-      {/* Just one orbit circle */}
-      <mesh position={[0, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
-        <ringGeometry args={[1.2, 1.23, 16]} />
-        <meshBasicMaterial color="#9774ff" transparent opacity={0.4} side={THREE.DoubleSide} />
-      </mesh>
-      
-      {/* Just one orbiting sphere */}
-      <OrbitingSphere 
-        radius={1.8} 
-        speed={0.1} 
-        offset={0}
-        size={0.05}
-        color="#ffd700"
-      />
-    </group>
-  );
-}
-
-function OrbitingSphere({ radius, speed, offset, size, color }: OrbitingSphereProps) {
-  const ref = useRef<THREE.Mesh>(null);
-  
-  useFrame(({ clock }) => {
-    if (ref.current) {
-      const t = clock.getElapsedTime() * speed + offset;
-      ref.current.position.x = Math.sin(t) * radius;
-      ref.current.position.z = Math.cos(t) * radius;
-    }
-  });
-  
-  return (
-    <mesh ref={ref}>
-      <sphereGeometry args={[size, 6, 6]} />
-      <meshBasicMaterial color={color} />
-    </mesh>
-  );
-}
-
-export default function CosmicAnimation() {
+export default function CosmicAnimation({
+  initialLowPerformance = false,
+  onError
+}: CosmicAnimationProps = {}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [fallbackActive, setFallbackActive] = useState(false);
   const [hasContextLoss, setHasContextLoss] = useState(false);
-  const [lowPerformanceMode, setLowPerformanceMode] = useState(false);
+  const [lowPerformanceMode, setLowPerformanceMode] = useState(initialLowPerformance);
   const contextLossCountRef = useRef(0);
-  const fallbackTimerRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Add handlers for context loss events
+  const performanceMonitorRef = useRef<{startTime: number, frameCount: number, lastCheck: number, consecutive_low_fps: number}>({
+    startTime: 0,
+    frameCount: 0,
+    lastCheck: 0,
+    consecutive_low_fps: 0
+  });
+  
   useEffect(() => {
-    const handleContextLoss = (event: Event) => {
-      event.preventDefault();
-      console.log('WebGL context lost. Attempting to recover...');
+    // Compatibility check - some browsers may have WebGL disabled or unavailable
+    const canvas = document.createElement('canvas');
+    let gl;
+    try {
+      gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    } catch (e) {
+      console.error('WebGL initialization error:', e);
+      setFallbackActive(true);
+      onError?.();
+      return;
+    }
+    
+    if (!gl) {
+      console.log('WebGL not supported, falling back to static background');
+      setFallbackActive(true);
+      onError?.();
+      return;
+    }
+    
+    if (!containerRef.current) return;
+    
+    // Variables to track resources for cleanup
+    let scene: THREE.Scene;
+    let camera: THREE.PerspectiveCamera;
+    let renderer: THREE.WebGLRenderer;
+    let controls: OrbitControls;
+    let frameId: number;
+    let animationRunning = true;
+    let loaded = false;
+    
+    // New variables for frame timing
+    let lastFrameTime = performance.now();
+    let frameTimings: number[] = [];
+    
+    try {
+      // Create scene with dark background
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color('#020203');
+
+      // Create camera
+      const width = containerRef.current.clientWidth;
+      const height = containerRef.current.clientHeight;
+      camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+      camera.position.z = 6;
       
-      // Track context loss count
-      contextLossCountRef.current += 1;
+      // Use simpler renderer settings based on performance mode
+      renderer = new THREE.WebGLRenderer({
+        powerPreference: lowPerformanceMode ? 'low-power' : 'default',
+        antialias: !lowPerformanceMode,
+        stencil: false,
+        depth: true,
+        alpha: false,
+        preserveDrawingBuffer: false,
+      });
       
-      // After multiple losses, switch to fallback
-      if (contextLossCountRef.current >= 2) {
-        console.log('Multiple WebGL context losses detected, switching to fallback...');
+      // Lower resolution for better performance
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(lowPerformanceMode ? 1 : Math.min(window.devicePixelRatio, 1.5));
+      
+      // Add canvas to container
+      containerRef.current.appendChild(renderer.domElement);
+      
+      // Set up minimal orbit controls
+      controls = new OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
+      controls.enableZoom = false;
+      controls.enablePan = false;
+      controls.rotateSpeed = 0.05;
+      controls.autoRotate = true;
+      controls.autoRotateSpeed = 0.05;
+      
+      // Add a dim ambient light
+      const ambientLight = new THREE.AmbientLight(0x222222, 1);
+      scene.add(ambientLight);
+      
+      // Create a simple celestial sphere - basic wireframe
+      const sphereGeometry = new THREE.SphereGeometry(2.5, lowPerformanceMode ? 8 : 12, lowPerformanceMode ? 8 : 12);
+      const sphereMaterial = new THREE.MeshBasicMaterial({
+        color: '#1a1425',
+        wireframe: true,
+        transparent: true,
+        opacity: 0.5
+      });
+      const celestialSphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+      scene.add(celestialSphere);
+      
+      // Create simplified stars with fewer particles
+      const starCount = Math.min(lowPerformanceMode ? 400 : 800, window.innerWidth < 768 ? 400 : 800);
+      const starGeometry = new THREE.BufferGeometry();
+      const starPositions = new Float32Array(starCount * 3);
+      const starColors = new Float32Array(starCount * 3);
+      const starSizes = new Float32Array(starCount);
+      
+      for (let i = 0; i < starCount; i++) {
+        const i3 = i * 3;
+        // Distribute stars in a sphere
+        const radius = 30 + Math.random() * 20;
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos(2 * Math.random() - 1);
+        
+        starPositions[i3] = radius * Math.sin(phi) * Math.cos(theta);
+        starPositions[i3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
+        starPositions[i3 + 2] = radius * Math.cos(phi);
+        
+        // More subtle star colors - less bright
+        const brightness = 0.2 + Math.random() * 0.5;
+        starColors[i3] = brightness;
+        starColors[i3 + 1] = brightness;
+        starColors[i3 + 2] = brightness + Math.random() * 0.15;
+        
+        // Varied sizes but keep them small
+        starSizes[i] = 0.3 + Math.random() * 1.2;
+      }
+      
+      starGeometry.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
+      starGeometry.setAttribute('color', new THREE.BufferAttribute(starColors, 3));
+      starGeometry.setAttribute('size', new THREE.BufferAttribute(starSizes, 1));
+      
+      const starMaterial = new THREE.PointsMaterial({
+        size: 0.08,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.7,
+        sizeAttenuation: true
+      });
+      
+      const stars = new THREE.Points(starGeometry, starMaterial);
+      scene.add(stars);
+      
+      // Start performance monitoring
+      performanceMonitorRef.current = {
+        startTime: performance.now(),
+        frameCount: 0,
+        lastCheck: performance.now(),
+        consecutive_low_fps: 0
+      };
+      
+      // Animation function - keep it very simple
+      const animate = () => {
+        if (!animationRunning) return;
+        
+        try {
+          // Request next frame first for smoother animation
+          frameId = requestAnimationFrame(animate);
+          
+          // Track performance
+          const now = performance.now();
+          const frameDuration = now - lastFrameTime;
+          lastFrameTime = now;
+          
+          // Keep track of frame timings (last 30 frames)
+          frameTimings.push(frameDuration);
+          if (frameTimings.length > 30) {
+            frameTimings.shift();
+          }
+          
+          // Check for consistently high frame times (low FPS)
+          if (frameTimings.length >= 10) {
+            const avgFrameTime = frameTimings.reduce((sum, time) => sum + time, 0) / frameTimings.length;
+            const estimatedFPS = 1000 / avgFrameTime;
+            
+            const perfMon = performanceMonitorRef.current;
+            perfMon.frameCount++;
+            
+            // Check memory usage if available through performance API
+            if (performance && 'memory' in performance) {
+              const memory = (performance as any).memory;
+              if (memory && memory.usedJSHeapSize && memory.jsHeapSizeLimit) {
+                const memoryUsageRatio = memory.usedJSHeapSize / memory.jsHeapSizeLimit;
+                
+                // If memory usage is above 80% of the limit, fall back to static
+                if (memoryUsageRatio > 0.8) {
+                  console.warn('High memory usage detected:', 
+                    Math.round(memory.usedJSHeapSize / 1048576) + 'MB / ' + 
+                    Math.round(memory.jsHeapSizeLimit / 1048576) + 'MB'
+                  );
+                  
+                  animationRunning = false;
+                  cleanupResources();
+                  setFallbackActive(true);
+                  onError?.();
+                  return;
+                }
+                
+                // Log memory usage periodically
+                if (now - perfMon.lastCheck > 5000) {
+                  console.log('Memory usage:', 
+                    Math.round(memory.usedJSHeapSize / 1048576) + 'MB / ' + 
+                    Math.round(memory.jsHeapSizeLimit / 1048576) + 'MB'
+                  );
+                }
+              }
+            }
+            
+            // If FPS is too low, track consecutive occurrences
+            if (estimatedFPS < 20) {
+              perfMon.consecutive_low_fps++;
+              
+              // If consistently low FPS, take action
+              if (perfMon.consecutive_low_fps >= 5) {
+                if (!lowPerformanceMode) {
+                  // First try switching to low performance mode
+                  console.log('Consistently low FPS detected, switching to low performance mode');
+                  setLowPerformanceMode(true);
+                  cleanupResources();
+                  return;
+                } else if (perfMon.consecutive_low_fps >= 10) {
+                  // If still low performance after optimization, fall back
+                  console.log('Performance issues persist even in low-performance mode, falling back to static version');
+                  animationRunning = false;
+                  cleanupResources();
+                  setFallbackActive(true);
+                  onError?.();
+                  return;
+                }
+              }
+            } else {
+              // Reset counter if FPS improves
+              perfMon.consecutive_low_fps = 0;
+            }
+            
+            // Regular performance check every second
+            if (now - perfMon.lastCheck > 1000) {
+              perfMon.frameCount = 0;
+              perfMon.lastCheck = now;
+            }
+          }
+          
+          // Rotate the sphere very slowly
+          celestialSphere.rotation.y += 0.0005;
+          celestialSphere.rotation.z += 0.0001;
+          
+          // Update controls
+          controls.update();
+          
+          // Render the scene
+          renderer.render(scene, camera);
+          
+          // Mark as loaded after first successful render
+          if (!loaded) {
+            loaded = true;
+            console.log('Three.js animation loaded successfully');
+          }
+        } catch (error) {
+          console.error('Animation loop error:', error);
+          animationRunning = false;
+          
+          // Clean up and fall back to static version
+          cleanupResources();
+          setFallbackActive(true);
+          onError?.();
+        }
+      };
+      
+      // Handle window resize efficiently
+      const handleResize = () => {
+        if (!containerRef.current || !camera || !renderer) return;
+        
+        const width = containerRef.current.clientWidth;
+        const height = containerRef.current.clientHeight;
+        
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height);
+      };
+      
+      // Context loss handler
+      const handleContextLoss = (event: Event) => {
+        event.preventDefault();
+        console.error('WebGL context lost');
+        contextLossCountRef.current++;
         setHasContextLoss(true);
-      } else if (!lowPerformanceMode) {
-        // First try switching to low performance mode
-        console.log('Switching to low performance mode...');
-        setLowPerformanceMode(true);
+        
+        // If we've had multiple context losses, fall back permanently
+        if (contextLossCountRef.current >= 2) {
+          console.error('Multiple WebGL context losses, falling back permanently');
+          animationRunning = false;
+          cleanupResources();
+          setFallbackActive(true);
+          onError?.();
+        }
+      };
+      
+      // Context restored handler
+      const handleContextRestored = () => {
+        console.log('WebGL context restored');
+        // If we get here, then the browser has automatically restored the context
+        // We can continue with the animation
+      };
+
+      // Add event listeners
+      window.addEventListener('resize', handleResize);
+      renderer.domElement.addEventListener('webglcontextlost', handleContextLoss);
+      renderer.domElement.addEventListener('webglcontextrestored', handleContextRestored);
+      
+      // Start animation
+      animate();
+      
+      // Fallback if nothing renders within 2 seconds
+      const timeout = setTimeout(() => {
+        if (!loaded) {
+          console.error('Animation failed to load in time');
+          animationRunning = false;
+          cleanupResources();
+          setFallbackActive(true);
+          onError?.();
+        }
+      }, 2000);
+      
+      // Clean up function to prevent memory leaks
+      function cleanupResources() {
+        if (frameId) {
+          cancelAnimationFrame(frameId);
+        }
+        
+        // Remove event listeners
+        window.removeEventListener('resize', handleResize);
+        if (renderer && renderer.domElement) {
+          renderer.domElement.removeEventListener('webglcontextlost', handleContextLoss);
+          renderer.domElement.removeEventListener('webglcontextrestored', handleContextRestored);
+          if (containerRef.current && containerRef.current.contains(renderer.domElement)) {
+            containerRef.current.removeChild(renderer.domElement);
+          }
+        }
+        
+        // Dispose geometries and materials
+        if (sphereGeometry) sphereGeometry.dispose();
+        if (sphereMaterial) sphereMaterial.dispose();
+        if (starGeometry) starGeometry.dispose();
+        if (starMaterial) starMaterial.dispose();
+        
+        // Clear timeout
+        clearTimeout(timeout);
       }
-    };
-
-    const handleContextRestored = () => {
-      console.log('WebGL context restored.');
-    };
-
-    // Set a fallback timer - if WebGL crashes immediately, use the fallback
-    fallbackTimerRef.current = setTimeout(() => {
-      if (contextLossCountRef.current > 0) {
-        setHasContextLoss(true);
-      }
-    }, 3000);
-
-    // Add event listeners
-    window.addEventListener('webglcontextlost', handleContextLoss);
-    window.addEventListener('webglcontextrestored', handleContextRestored);
-
-    return () => {
-      window.removeEventListener('webglcontextlost', handleContextLoss);
-      window.removeEventListener('webglcontextrestored', handleContextRestored);
-      if (fallbackTimerRef.current) {
-        clearTimeout(fallbackTimerRef.current);
-      }
-    };
-  }, [lowPerformanceMode]);
-
-  // If we've had context loss issues, use a fallback
-  if (hasContextLoss) {
-    return <FallbackCanvas />;
+      
+      // Return cleanup function for React useEffect
+      return cleanupResources;
+    } catch (error) {
+      console.error('Three.js setup error:', error);
+      setFallbackActive(true);
+      onError?.();
+      return () => {}; // Empty cleanup if setup failed
+    }
+  }, [lowPerformanceMode, onError, initialLowPerformance]); // Add lowPerformanceMode as a dependency to re-render with new settings
+  
+  // Enhanced fallback with minimal SVG
+  if (fallbackActive) {
+    return (
+      <div className="w-full h-full bg-[#020203] flex flex-col items-center justify-center">
+        <div className="relative w-64 h-64 opacity-60">
+          <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+            <circle cx="100" cy="100" r="80" stroke="hsl(45 70% 40% / 0.4)" strokeWidth="0.5" />
+            <circle cx="100" cy="100" r="50" stroke="hsl(45 70% 40% / 0.4)" strokeWidth="0.5" />
+            <circle cx="100" cy="100" r="30" stroke="hsl(45 70% 40% / 0.4)" strokeWidth="0.5" />
+            
+            <path d="M 100 20 L 100 180" stroke="hsl(45 70% 40% / 0.2)" strokeWidth="0.2" opacity="0.4" />
+            <path d="M 20 100 L 180 100" stroke="hsl(45 70% 40% / 0.2)" strokeWidth="0.2" opacity="0.4" />
+            
+            {/* Minimal symbols */}
+            <text x="96" y="40" fill="hsl(45 70% 40% / 0.5)" fontSize="8" fontFamily="serif">☿</text>
+            <text x="160" y="100" fill="hsl(45 70% 40% / 0.5)" fontSize="8" fontFamily="serif">☽</text>
+            <text x="96" y="170" fill="hsl(45 70% 40% / 0.5)" fontSize="8" fontFamily="serif">⊕</text>
+            <text x="40" y="100" fill="hsl(45 70% 40% / 0.5)" fontSize="8" fontFamily="serif">♄</text>
+            
+            {/* Simple pulsing triangle */}
+            <g className="animate-pulse">
+              <path d="M 100 70 L 120 120 L 80 120 Z" stroke="hsl(45 70% 40% / 0.5)" strokeWidth="0.5" fill="none" />
+            </g>
+          </svg>
+        </div>
+      </div>
+    );
   }
-
-  return (
-    <div className="w-full h-full">
-      <Canvas 
-        camera={{ position: [0, 0, 6], fov: 45 }}
-        gl={{ 
-          powerPreference: 'low-power',
-          alpha: false,
-          antialias: false,
-          stencil: false,
-          depth: true,
-          precision: 'lowp'
-        }}
-        frameloop="demand"
-        dpr={1} // Force lowest resolution
-        performance={{ min: 0.1 }}
-        style={{ imageRendering: 'pixelated' }}
-      >
-        <color attach="background" args={['#050510']} />
-        <ambientLight intensity={0.2} />
-        
-        <CelestialSphere />
-        {!lowPerformanceMode && <MysticalSymbols />}
-        {!lowPerformanceMode && <GoldenSpiral />}
-        
-        {/* Minimal stars */}
-        <Stars 
-          radius={50} 
-          depth={50} 
-          count={lowPerformanceMode ? 500 : 1000} 
-          factor={4} 
-          fade 
-          speed={0.2} 
-        />
-        
-        <OrbitControls 
-          enableZoom={false}
-          enablePan={false}
-          rotateSpeed={0.1}
-          autoRotate
-          autoRotateSpeed={0.1}
-        />
-      </Canvas>
-    </div>
-  );
+  
+  return <div ref={containerRef} className="w-full h-full" />;
 } 

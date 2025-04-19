@@ -112,7 +112,7 @@ export default function Navbar() {
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center">
-            <div className="flex space-x-1 items-center mr-2 bg-card/40 backdrop-blur-md rounded-full border border-border/20 px-2 py-1">
+            <div className="flex space-x-1 items-center mr-2 bg-card/40 backdrop-blur-md rounded-full px-2 py-1">
               {navItems.slice(0, 3).map((item) => {
                 const active = isActive(item.href) || (item.href !== '/' && pathname?.includes(item.href));
                 return (
@@ -132,8 +132,8 @@ export default function Navbar() {
                     </span>
                     <span className={`
                       ${active 
-                        ? "text-gradient font-medium" 
-                        : "text-foreground/80 hover:text-accent transition-colors"
+                        ? "text-accent/90 font-medium" 
+                        : "text-muted-foreground hover:text-foreground/70 transition-colors"
                       }
                     `}>
                       {item.label}
@@ -144,18 +144,18 @@ export default function Navbar() {
               
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="px-3 py-1.5 rounded-full flex items-center gap-1.5 hover:bg-card/50 transition-all duration-300 text-foreground/80 hover:text-accent">
+                  <button className="px-3 py-1.5 rounded-full flex items-center gap-1.5 hover:bg-card/50 transition-all duration-300 text-muted-foreground hover:text-foreground/70">
                     <span>More</span>
                     <ChevronDown className="w-4 h-4 opacity-70" />
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56 bg-card/90 backdrop-blur-md border-border/30 shadow-lg shadow-black/30 rounded-lg overflow-hidden">
                   <div className="px-4 py-2 border-b border-border/20">
-                    <div className="text-gradient font-esoterica">Arcane Paths</div>
+                    <div className="text-accent/90 font-esoterica">Arcane Paths</div>
                   </div>
                   {navItems.slice(3).map((item) => (
                     <DropdownMenuItem key={item.href} asChild className="cursor-pointer focus:bg-primary/10">
-                      <Link href={item.href} className="flex items-start gap-3 py-3 px-4 hover:text-gradient transition-all duration-300">
+                      <Link href={item.href} className="flex items-start gap-3 py-3 px-4 hover:text-accent/80 transition-all duration-300">
                         <div className="shrink-0 mt-0.5 text-accent">
                           {item.icon}
                         </div>
@@ -175,8 +175,8 @@ export default function Navbar() {
           <div className="md:hidden">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="p-2 rounded-full bg-card/40 backdrop-blur-md border border-border/20 transition-all duration-300 hover:bg-card/70">
-                  <Menu className="w-5 h-5 text-gradient" />
+                <button className="p-2 rounded-full bg-card/40 backdrop-blur-md transition-all duration-300 hover:bg-card/70">
+                  <Menu className="w-5 h-5 text-accent/90" />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-72 bg-card/90 backdrop-blur-md border-border/30 shadow-lg shadow-black/30 rounded-lg overflow-hidden">
@@ -191,8 +191,8 @@ export default function Navbar() {
                       className={`
                         flex items-start gap-3 py-3 px-4 transition-all duration-300
                         ${pathname === item.href || (item.href !== '/' && pathname?.includes(item.href))
-                          ? "text-gradient" 
-                          : "hover:text-gradient"
+                          ? "text-accent/90" 
+                          : "text-muted-foreground hover:text-foreground/70"
                         }
                       `}
                     >
