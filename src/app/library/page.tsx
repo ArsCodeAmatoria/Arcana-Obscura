@@ -180,7 +180,7 @@ export default function LibraryPage() {
                   {book.icon}
                 </div>
                 <CardTitle className="text-xl font-esoterica text-accent">{book.title}</CardTitle>
-                <CardDescription className="text-foreground/70">
+                <CardDescription className="text-foreground font-medium">
                   {book.author} • {book.year}
                 </CardDescription>
               </CardHeader>
