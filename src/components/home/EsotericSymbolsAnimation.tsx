@@ -2,44 +2,53 @@
 
 import React, { useState, useEffect } from 'react';
 
-// Color themes for the glowing orbs
-const COLOR_THEMES = {
-  GOLD: 'hsl(45, 100%, 50%)', // Gold
-  PURPLE: 'hsl(264, 76%, 45%)', // Primary purple
-  ROSE: 'hsl(346, 83%, 28%)', // Dark rose
-  BLUE: 'hsl(200, 80%, 50%)', // Blue
-  PINK: 'hsl(320, 60%, 50%)', // Pink
-  EMERALD: 'hsl(160, 60%, 35%)', // Emerald
-  WHITE: 'hsl(0, 0%, 90%)' // White
+// Color themes for the embers
+const EMBER_COLORS = {
+  BRIGHT_ORANGE: 'hsl(30, 100%, 55%)',
+  ORANGE: 'hsl(20, 100%, 50%)',
+  DEEP_RED: 'hsl(10, 90%, 40%)',
+  YELLOW: 'hsl(45, 100%, 60%)',
+  RED: 'hsl(0, 100%, 45%)'
 };
 
-// Definition for a floating orb
-interface FloatingOrb {
+// Glow colors
+const GLOW_COLORS = {
+  ORANGE_GLOW: 'hsl(30, 100%, 50%)',
+  RED_GLOW: 'hsl(10, 100%, 50%)',
+  YELLOW_GLOW: 'hsl(45, 100%, 50%)'
+};
+
+// Definition for a floating ember
+interface FloatingEmber {
   id: number;
   x: number;
   y: number;
   size: number;
   opacity: number;
   speed: number;
-  direction: number;
+  direction: { x: number, y: number };
   color: string;
-  glowIntensity: number;
-  pulseSpeed: number;
-  pulsePhase: number;
   glowColor: string;
-  variant: number; // Controls the appearance variant of the orb
+  glowIntensity: number;
+  flickerSpeed: number;
+  flickerPhase: number;
+  lifespan: number; // How long this ember lives before fading completely
+  age: number; // Current age of the ember
+  rotationAngle: number;
+  rotationSpeed: number;
+  variant: number; // Controls the appearance variant of the ember
 }
 
-interface GlowingOrbsAnimationProps {
-  maxOrbs?: number;
-  disablePulsing?: boolean;
+interface FloatingEmbersAnimationProps {
+  maxEmbers?: number;
+  disableFlickering?: boolean;
 }
 
-export default function GlowingOrbsAnimation({ 
-  maxOrbs = 40,
-  disablePulsing = false
-}: GlowingOrbsAnimationProps) {
-  const [orbs, setOrbs] = useState<FloatingOrb[]>([]);
+export default function FloatingEmbersAnimation({ 
+  maxEmbers = 40,
+  disableFlickering = false
+}: FloatingEmbersAnimationProps) {
+  const [embers, setEmbers] = useState<FloatingEmber[]>([]);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   
   // Initialize the animation
@@ -50,9 +59,9 @@ export default function GlowingOrbsAnimation({
       height: window.innerHeight
     });
     
-    // Create initial orbs
-    const initialOrbs: FloatingOrb[] = Array.from({ length: maxOrbs }).map((_, index) => createRandomOrb(index));
-    setOrbs(initialOrbs);
+    // Create initial embers
+    const initialEmbers: FloatingEmber[] = Array.from({ length: maxEmbers }).map((_, index) => createRandomEmber(index));
+    setEmbers(initialEmbers);
     
     // Handle resize
     const handleResize = () => {
@@ -64,212 +73,220 @@ export default function GlowingOrbsAnimation({
     
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [maxOrbs]);
+  }, [maxEmbers]);
   
   // Animation loop
   useEffect(() => {
     if (dimensions.width === 0) return;
     
     const animationFrame = requestAnimationFrame(() => {
-      setOrbs(currentOrbs => 
-        currentOrbs.map(orb => {
-          // Update position
-          let newY = orb.y + (orb.speed * orb.direction);
-          let newX = orb.x + (Math.sin(newY * 0.01) * 0.5); // Subtle horizontal movement
-          let newOpacity = orb.opacity;
+      setEmbers(currentEmbers => 
+        currentEmbers.map(ember => {
+          // Update position with slight wind effect (curved path)
+          let newY = ember.y + (ember.speed * ember.direction.y);
+          let newX = ember.x + (ember.speed * ember.direction.x) + (Math.sin(newY * 0.01) * 0.3);
           
-          // Fade in and out as they move
-          if (orb.direction > 0) {
-            // Moving down - fade out at bottom
-            if (newY > dimensions.height * 0.8) {
-              newOpacity = Math.max(0, orb.opacity - 0.01);
-            } else if (newY < dimensions.height * 0.2) {
-              // Top area - fade in
-              newOpacity = Math.min(0.9, orb.opacity + 0.01);
-            }
-          } else {
-            // Moving up - fade out at top
-            if (newY < dimensions.height * 0.2) {
-              newOpacity = Math.max(0, orb.opacity - 0.01);
-            } else if (newY > dimensions.height * 0.8) {
-              // Bottom area - fade in
-              newOpacity = Math.min(0.9, orb.opacity + 0.01);
-            }
+          // Increase age
+          const newAge = ember.age + 0.016; // Roughly equivalent to deltaTime in seconds
+          
+          // Calculate lifespan ratio (0 to 1, where 1 is end of life)
+          const lifespanRatio = newAge / ember.lifespan;
+          
+          // Calculate base opacity - dims as ember ages
+          let newOpacity = Math.max(0, ember.opacity * (1 - lifespanRatio * 0.6));
+          
+          // Reset ember if it's out of bounds or expired
+          if (newOpacity <= 0.05 || 
+              newX < -20 || newX > dimensions.width + 20 || 
+              newY < -20 || newY > dimensions.height + 20) {
+            return createRandomEmber(ember.id);
           }
           
-          // Orb completely faded out, respawn it
-          if (newOpacity <= 0) {
-            return createRandomOrb(orb.id);
-          }
-          
-          // Calculate pulsing effect
-          const pulseEffect = disablePulsing 
+          // Calculate flickering effect
+          const flickerEffect = disableFlickering 
             ? 1 
-            : 0.7 + (Math.sin(orb.pulsePhase) * 0.3);
+            : 0.7 + (Math.sin(ember.flickerPhase) * 0.3) + (Math.sin(ember.flickerPhase * 2.5) * 0.15);
           
-          // Calculate glow intensity based on position (center = more glow)
-          const distanceFromCenterX = Math.abs((newX / dimensions.width) - 0.5) * 2; // 0 to 1
-          const distanceFromCenterY = Math.abs((newY / dimensions.height) - 0.5) * 2; // 0 to 1
-          const distanceFromCenter = Math.sqrt((distanceFromCenterX * distanceFromCenterX + distanceFromCenterY * distanceFromCenterY) / 2);
-          const newGlowIntensity = Math.max(0.4, 1 - distanceFromCenter);
+          // Update rotation
+          const newRotationAngle = (ember.rotationAngle + ember.rotationSpeed) % 360;
           
-          // Update orb
+          // Update ember
           return {
-            ...orb,
+            ...ember,
             x: newX,
             y: newY,
-            opacity: newOpacity * pulseEffect,
-            pulsePhase: (orb.pulsePhase + orb.pulseSpeed) % (Math.PI * 2),
-            glowIntensity: newGlowIntensity
+            age: newAge,
+            opacity: newOpacity * flickerEffect,
+            flickerPhase: (ember.flickerPhase + ember.flickerSpeed) % (Math.PI * 2),
+            rotationAngle: newRotationAngle,
+            // Ember gets smaller as it rises and ages
+            size: ember.size * (1 - lifespanRatio * 0.3),
+            // Glow diminishes as ember ages
+            glowIntensity: ember.glowIntensity * (1 - lifespanRatio * 0.5)
           };
         })
       );
     });
     
     return () => cancelAnimationFrame(animationFrame);
-  }, [orbs, dimensions, disablePulsing]);
+  }, [embers, dimensions, disableFlickering]);
   
-  // Function to create a random orb
-  function createRandomOrb(id: number): FloatingOrb {
-    const direction = Math.random() > 0.5 ? 1 : -1; // Up or down
+  // Function to create a random ember
+  function createRandomEmber(id: number): FloatingEmber {
+    // Random direction - mostly upward, with slight side variation
+    const angleVariation = 0.2; // Variation from straight up (in radians)
+    const angle = Math.PI * 1.5 + (Math.random() * angleVariation * 2 - angleVariation);
     
-    // Randomize horizontal position with slight bias toward center
-    const centerBias = Math.random() * 0.4 + 0.3; // 0.3 to 0.7
-    const x = Math.random() > 0.5 
-      ? dimensions.width * centerBias + Math.random() * (dimensions.width * 0.3)
-      : Math.random() * (dimensions.width * 0.3);
+    // Calculate direction vector
+    const directionX = Math.cos(angle);
+    const directionY = Math.sin(angle);
     
-    // Pick a random color theme
-    const colorKeys = Object.keys(COLOR_THEMES) as (keyof typeof COLOR_THEMES)[];
+    // Position near bottom, with horizontal variance
+    const x = Math.random() * dimensions.width;
+    const y = dimensions.height + Math.random() * 20; // Start slightly below screen
+    
+    // Pick a random color for the ember
+    const colorKeys = Object.keys(EMBER_COLORS) as (keyof typeof EMBER_COLORS)[];
     const colorKey = colorKeys[Math.floor(Math.random() * colorKeys.length)];
-    const color = COLOR_THEMES[colorKey];
+    const color = EMBER_COLORS[colorKey];
     
-    // Sometimes use a different glow color for interesting effects
-    const useSecondaryGlow = Math.random() > 0.7;
-    const glowColorKey = useSecondaryGlow ? 
-      colorKeys[Math.floor(Math.random() * colorKeys.length)] : 
-      colorKey;
-    const glowColor = COLOR_THEMES[glowColorKey];
+    // Pick a glow color
+    const glowColorKeys = Object.keys(GLOW_COLORS) as (keyof typeof GLOW_COLORS)[];
+    const glowColorKey = glowColorKeys[Math.floor(Math.random() * glowColorKeys.length)];
+    const glowColor = GLOW_COLORS[glowColorKey];
     
+    // Create the ember with random properties
     return {
       id,
       x,
-      y: direction > 0 
-        ? Math.random() * dimensions.height * 0.3 // Start at top third if moving down
-        : Math.random() * dimensions.height * 0.3 + dimensions.height * 0.7, // Start at bottom third if moving up
-      size: 5 + Math.random() * 20, // Size between 5 and 25px for the orb core
-      opacity: 0.2 + Math.random() * 0.4, // Start somewhat transparent
-      speed: 0.2 + Math.random() * 0.6, // Speed between 0.2 and 0.8px per frame
-      direction,
+      y,
+      size: 3 + Math.random() * 7, // Size between 3 and 10px for the ember core
+      opacity: 0.6 + Math.random() * 0.4, // Start fairly bright
+      speed: 0.5 + Math.random() * 1.0, // Speed between 0.5 and 1.5px per frame
+      direction: { x: directionX * 0.3, y: directionY },
       color,
       glowColor,
-      glowIntensity: 0.4 + Math.random() * 0.6,
-      pulseSpeed: 0.01 + Math.random() * 0.03, // Pulsing speed
-      pulsePhase: Math.random() * Math.PI * 2, // Random starting phase
-      variant: Math.floor(Math.random() * 3) // 0, 1, or 2 for different orb styles
+      glowIntensity: 0.6 + Math.random() * 0.4,
+      flickerSpeed: 0.05 + Math.random() * 0.15, // Faster flickering for fire effect
+      flickerPhase: Math.random() * Math.PI * 2, // Random starting phase
+      lifespan: 5 + Math.random() * 10, // Lifespan between 5 and 15 seconds
+      age: 0, // New ember
+      rotationAngle: Math.random() * 360,
+      rotationSpeed: (Math.random() - 0.5) * 3, // Faster rotation
+      variant: Math.floor(Math.random() * 3) // 0, 1, or 2 for different ember styles
     };
   }
   
   return (
     <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-      {orbs.map((orb) => (
+      {embers.map((ember) => (
         <div
-          key={orb.id}
-          className="absolute transform -translate-x-1/2 -translate-y-1/2"
+          key={ember.id}
+          className="absolute"
           style={{
-            left: `${orb.x}px`,
-            top: `${orb.y}px`,
-            opacity: orb.opacity,
+            left: `${ember.x}px`,
+            top: `${ember.y}px`,
+            opacity: ember.opacity,
             willChange: 'transform, opacity',
-            transition: 'opacity 0.5s ease-in-out'
+            transform: `translate(-50%, -50%) rotate(${ember.rotationAngle}deg)`,
+            transition: 'opacity 0.1s ease-in-out'
           }}
         >
-          {/* SVG Glowing Orb */}
+          {/* SVG Ember */}
           <svg 
-            width={orb.size * 6} 
-            height={orb.size * 6} 
+            width={ember.size * 8} 
+            height={ember.size * 8} 
             viewBox="0 0 100 100" 
             xmlns="http://www.w3.org/2000/svg"
           >
-            {/* Large outer glow */}
+            {/* Outer glow */}
             <circle 
               cx="50" 
               cy="50" 
-              r={50 * (0.7 + orb.glowIntensity * 0.3)}
-              fill={orb.glowColor}
-              opacity={0.1 * orb.glowIntensity} 
-              filter="blur(10px)"
-            />
-            
-            {/* Medium glow */}
-            <circle 
-              cx="50" 
-              cy="50" 
-              r={40 * (0.7 + orb.glowIntensity * 0.3)}
-              fill={orb.glowColor}
-              opacity={0.15 * orb.glowIntensity} 
+              r="45"
+              fill={ember.glowColor}
+              opacity={0.15 * ember.glowIntensity} 
               filter="blur(8px)"
             />
             
-            {/* Core glow */}
+            {/* Inner glow */}
             <circle 
               cx="50" 
               cy="50" 
-              r={25 * (0.7 + orb.glowIntensity * 0.3)}
-              fill={orb.glowColor}
-              opacity={0.25 * orb.glowIntensity} 
+              r="25"
+              fill={ember.glowColor}
+              opacity={0.25 * ember.glowIntensity} 
               filter="blur(5px)"
             />
             
-            {/* Core orb */}
-            <circle 
-              cx="50" 
-              cy="50" 
-              r={orb.variant === 0 ? 12 : orb.variant === 1 ? 10 : 8}
-              fill={orb.color}
-              opacity={0.8 * orb.glowIntensity} 
-            />
-            
-            {/* Highlight */}
-            <circle 
-              cx="40" 
-              cy="40" 
-              r={orb.variant === 0 ? 4 : orb.variant === 1 ? 3 : 2}
-              fill="white"
-              opacity={0.7 * orb.glowIntensity} 
-            />
-            
-            {/* Extra details based on variant */}
-            {orb.variant === 1 && (
-              // Variant 1: Ring
+            {/* Ember shape based on variant */}
+            {ember.variant === 0 && (
+              // Variant 0: Simple ember particle
               <circle 
                 cx="50" 
                 cy="50" 
-                r="18"
-                fill="none"
-                stroke={orb.color}
-                strokeWidth="1.5"
-                opacity={0.4 * orb.glowIntensity}
+                r="6"
+                fill={ember.color}
+                opacity={0.9} 
               />
             )}
             
-            {orb.variant === 2 && (
-              // Variant 2: Rays
+            {ember.variant === 1 && (
+              // Variant 1: Irregular ember shape
+              <path
+                d={`M50,45 
+                   C${55 + Math.random() * 5},${40 + Math.random() * 5} 
+                    ${60 + Math.random() * 5},${45 + Math.random() * 5} 
+                    ${55 + Math.random() * 5},${50 + Math.random() * 5} 
+                   C${60 + Math.random() * 5},${55 + Math.random() * 5} 
+                    ${55 + Math.random() * 5},${60 + Math.random() * 5} 
+                    ${50 + Math.random() * 5},${55 + Math.random() * 5}
+                   C${45 + Math.random() * 5},${60 + Math.random() * 5} 
+                    ${40 + Math.random() * 5},${55 + Math.random() * 5} 
+                    ${45 + Math.random() * 5},${50 + Math.random() * 5}
+                   C${40 + Math.random() * 5},${45 + Math.random() * 5} 
+                    ${45 + Math.random() * 5},${40 + Math.random() * 5} 
+                    ${50 + Math.random() * 5},${45 + Math.random() * 5}`}
+                fill={ember.color}
+                opacity={0.9}
+              />
+            )}
+            
+            {ember.variant === 2 && (
+              // Variant 2: Spark with trailing particles
               <>
-                {[0, 45, 90, 135, 180, 225, 270, 315].map((angle, i) => (
-                  <line 
-                    key={i}
-                    x1="50" 
-                    y1="50" 
-                    x2={50 + Math.cos(angle * Math.PI / 180) * 30}
-                    y2={50 + Math.sin(angle * Math.PI / 180) * 30}
-                    stroke={orb.color}
-                    strokeWidth="1"
-                    opacity={0.3 * orb.glowIntensity}
-                  />
-                ))}
+                <circle 
+                  cx="50" 
+                  cy="50" 
+                  r="5"
+                  fill={ember.color}
+                  opacity={0.9} 
+                />
+                <circle 
+                  cx="45" 
+                  cy="55" 
+                  r="3"
+                  fill={ember.color}
+                  opacity={0.6} 
+                />
+                <circle 
+                  cx="40" 
+                  cy="60" 
+                  r="2"
+                  fill={ember.color}
+                  opacity={0.4} 
+                />
               </>
             )}
+            
+            {/* Bright center */}
+            <circle 
+              cx="50" 
+              cy="50" 
+              r="3"
+              fill={EMBER_COLORS.YELLOW}
+              opacity={0.9 * ember.glowIntensity} 
+            />
           </svg>
         </div>
       ))}
