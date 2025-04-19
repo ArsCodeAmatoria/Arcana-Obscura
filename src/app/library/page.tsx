@@ -2,7 +2,7 @@
 
 import MainLayout from '@/components/layout/MainLayout';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
-import { BookOpen, ExternalLink, BookMarked, ScrollText, Calculator, Skull, Moon, FlaskConical, Brain, Gem, Wand, Zap, Eye, Rocket } from 'lucide-react';
+import { BookOpen, ExternalLink, BookMarked, ScrollText, Calculator, Skull, Moon, FlaskConical, Brain, Gem, Wand, Zap, Eye, Rocket, Code } from 'lucide-react';
 import Link from 'next/link';
 
 const books = [
@@ -149,6 +149,15 @@ const books = [
     category: 'Thelemic Magic',
     year: '1914-1952',
     icon: <Rocket className="w-8 h-8 text-accent" />
+  },
+  {
+    id: 'haskell',
+    title: 'Haskell: The Esoteric Programming Language',
+    author: 'Functional Mysticism',
+    description: 'A purely functional programming language that embodies mathematical abstraction and algorithmic purity, offering a paradigm that challenges conventional computing thought.',
+    category: 'Programming',
+    year: '1990 - Present',
+    icon: <Code className="w-8 h-8 text-accent" />
   }
 ];
 
