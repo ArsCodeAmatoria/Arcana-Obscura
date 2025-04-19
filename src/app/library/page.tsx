@@ -1,6 +1,6 @@
 import MainLayout from '@/components/layout/MainLayout';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
-import { BookOpen, ExternalLink, BookMarked, ScrollText } from 'lucide-react';
+import { BookOpen, ExternalLink, BookMarked, ScrollText, Calculator, Skull } from 'lucide-react';
 import Link from 'next/link';
 
 const books = [
@@ -23,6 +23,15 @@ const books = [
     icon: <BookMarked className="w-8 h-8 text-accent" />
   },
   {
+    id: 'book-of-the-dead',
+    title: 'The Egyptian Book of the Dead',
+    author: 'Ancient Egyptian Priests',
+    description: 'A collection of funerary texts containing spells to assist the deceased in the afterlife, essential to understanding Egyptian spiritual beliefs.',
+    category: 'Egyptian Mysticism',
+    year: 'c. 1550 BCE',
+    icon: <Skull className="w-8 h-8 text-accent" />
+  },
+  {
     id: 'sefer-yetzirah',
     title: 'Sefer Yetzirah',
     author: 'Unknown',
@@ -30,6 +39,15 @@ const books = [
     category: 'Kabbalah',
     year: 'c. 200 CE',
     icon: <ScrollText className="w-8 h-8 text-accent" />
+  },
+  {
+    id: 'gematria',
+    title: 'Gematria: The Cosmic Science',
+    author: 'Various Kabbalistic Scholars',
+    description: 'An exploration of the alphanumerical code of assigning numbers to letters, revealing hidden meanings and connections in sacred texts.',
+    category: 'Kabbalah',
+    year: 'Ancient - Present',
+    icon: <Calculator className="w-8 h-8 text-accent" />
   },
   {
     id: 'zohar',
