@@ -1,6 +1,6 @@
 import MainLayout from '@/components/layout/MainLayout';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
-import { BookOpen, ExternalLink, BookMarked, ScrollText, Calculator, Skull, Moon, FlaskConical, Brain, Gem, Wand } from 'lucide-react';
+import { BookOpen, ExternalLink, BookMarked, ScrollText, Calculator, Skull, Moon, FlaskConical, Brain, Gem, Wand, Zap, Eye, Rocket } from 'lucide-react';
 import Link from 'next/link';
 
 const books = [
@@ -102,6 +102,51 @@ const books = [
     category: 'Fictional Grimoire',
     year: '20th Century',
     icon: <BookOpen className="w-8 h-8 text-accent" />
+  },
+  {
+    id: 'newton-alchemy',
+    title: 'Newton\'s Alchemical Pursuits',
+    author: 'Isaac Newton',
+    description: 'The secret alchemical works of one of history\'s greatest scientists, revealing his lifelong quest to unlock nature\'s deepest mysteries.',
+    category: 'Scientific Alchemy',
+    year: '1642-1727',
+    icon: <FlaskConical className="w-8 h-8 text-accent" />
+  },
+  {
+    id: 'vril',
+    title: 'Vril: The Power of the Coming Race',
+    author: 'Edward Bulwer-Lytton',
+    description: 'A mysterious force introduced in fiction that evolved into an occult concept of an all-permeating cosmic energy.',
+    category: 'Esoteric Energy',
+    year: '1871 - Present',
+    icon: <Zap className="w-8 h-8 text-accent" />
+  },
+  {
+    id: 'albert-pike',
+    title: 'Albert Pike',
+    author: 'Masonic Scholar',
+    description: 'Influential Masonic scholar, author of "Morals and Dogma," and reformer of Scottish Rite Freemasonry.',
+    category: 'Freemasonry',
+    year: '1809-1891',
+    icon: <BookMarked className="w-8 h-8 text-accent" />
+  },
+  {
+    id: 'aleister-crowley',
+    title: 'Aleister Crowley',
+    author: 'The Great Beast 666',
+    description: 'Self-proclaimed "Great Beast 666," ceremonial magician, poet, and founder of Thelema.',
+    category: 'Ceremonial Magic',
+    year: '1875-1947',
+    icon: <Eye className="w-8 h-8 text-accent" />
+  },
+  {
+    id: 'jack-parsons',
+    title: 'Jack Parsons',
+    author: 'Rocket Scientist & Occultist',
+    description: 'Pioneering rocket engineer, co-founder of JPL, and occultist who sought to bridge science and magic.',
+    category: 'Thelemic Magic',
+    year: '1914-1952',
+    icon: <Rocket className="w-8 h-8 text-accent" />
   }
 ];
 
