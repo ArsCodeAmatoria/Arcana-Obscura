@@ -118,9 +118,11 @@ export default function Navbar() {
                 asChild
                 className={`transition-all duration-300 ${active ? "mystical-glow border border-primary/10" : "hover:border-accent/20 border border-transparent"}`}
               >
-                <Link href={item.href} className="flex items-center">
+                <Link href={item.href} className="flex items-center gap-1">
                   {item.icon}
-                  <span>{item.label}</span>
+                  <span className={active ? "text-gradient font-medium" : "group-hover:text-accent transition-colors"}>
+                    {item.label}
+                  </span>
                 </Link>
               </Button>
             );
@@ -133,14 +135,14 @@ export default function Navbar() {
                 className="flex items-center hover:border-accent/20 border border-transparent transition-all duration-300"
                 size="sm"
               >
-                <span>More</span>
+                <span className="hover:text-accent transition-colors">More</span>
                 <ChevronDown className="ml-1 w-4 h-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56 bg-card/90 backdrop-blur-sm border-border/30">
               {navItems.slice(3).map((item) => (
                 <DropdownMenuItem key={item.href} asChild className="cursor-pointer">
-                  <Link href={item.href} className="flex items-start gap-3 py-2">
+                  <Link href={item.href} className="flex items-start gap-3 py-2 hover:text-gradient">
                     <div className="shrink-0 mt-0.5">
                       {item.icon}
                     </div>
@@ -164,15 +166,15 @@ export default function Navbar() {
                 size="sm"
                 className="border border-transparent"
               >
-                <Menu className="w-5 h-5" />
+                <Menu className="w-5 h-5 hover:text-accent transition-colors" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-72 bg-card/90 backdrop-blur-sm border-border/30">
-              <DropdownMenuLabel className="text-accent font-esoterica">Navigation</DropdownMenuLabel>
+              <DropdownMenuLabel className="text-gradient font-esoterica">Navigation</DropdownMenuLabel>
               <DropdownMenuSeparator />
               {navItems.map((item) => (
                 <DropdownMenuItem key={item.href} asChild className="cursor-pointer">
-                  <Link href={item.href} className="flex items-start gap-3 py-3">
+                  <Link href={item.href} className="flex items-start gap-3 py-3 hover:text-gradient">
                     <div className="shrink-0 mt-0.5">
                       {item.icon}
                     </div>

@@ -285,6 +285,19 @@ html {
     animation: text-shine 4s linear infinite;
   }
   
+  /* Hover gradient effect */
+  .hover\:text-gradient:hover {
+    background: linear-gradient(to right, 
+      hsl(var(--accent)), 
+      hsl(var(--primary)), 
+      hsl(var(--secondary)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-size: 200% auto;
+    animation: text-shine 4s linear infinite;
+  }
+  
   @keyframes text-shine {
     to {
       background-position: 200% center;
