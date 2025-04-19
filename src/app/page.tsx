@@ -9,7 +9,7 @@ import { Eye, BookOpen, MapPin, Clock, Scroll, Sparkles, Layers, BookMarked, Arr
 import dynamic from 'next/dynamic';
 
 // Dynamic import for our animation component to avoid SSR issues
-const EsotericSymbolsAnimation = dynamic(
+const GlowingOrbsAnimation = dynamic(
   () => import('@/components/home/EsotericSymbolsAnimation'),
   {
     ssr: false,
@@ -35,10 +35,10 @@ export default function HomePage() {
   
   return (
     <MainLayout>
-      {/* Hero Section with Esoteric Symbols Animation */}
+      {/* Hero Section with Glowing Orbs Animation */}
       <section className="relative w-full h-[60vh] overflow-hidden">
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-background to-primary/5">
-          <EsotericSymbolsAnimation maxSymbols={50} />
+          <GlowingOrbsAnimation maxOrbs={40} />
         </div>
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-8">
           <div className="text-center max-w-4xl px-4">
