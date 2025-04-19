@@ -1,7 +1,10 @@
+'use client';
+
 import MainLayout from '@/components/layout/MainLayout';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { BookOpen, ExternalLink, BookMarked, ScrollText, Calculator, Skull, Moon, FlaskConical, Brain, Gem, Wand, Zap, Eye, Rocket } from 'lucide-react';
 import Link from 'next/link';
+import { useEffect, useRef } from 'react';
 
 const books = [
   {
@@ -151,24 +154,85 @@ const books = [
 ];
 
 export default function LibraryPage() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    const stars: Array<{x: number, y: number, size: number, opacity: number, speed: number}> = [];
+    
+    // Set canvas dimensions to match parent container
+    const resizeCanvas = () => {
+      const container = canvas.parentElement;
+      if (container) {
+        canvas.width = container.offsetWidth;
+        canvas.height = container.offsetHeight;
+        // Recreate stars after resize
+        createStars();
+      }
+    };
+    
+    // Create initial stars
+    const createStars = () => {
+      stars.length = 0; // Clear existing stars
+      const maxStars = Math.floor((canvas.width * canvas.height) / 4000); // Adjust density
+      
+      for (let i = 0; i < maxStars; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          size: Math.random() * 1.5 + 0.5, // 0.5 to 2
+          opacity: Math.random() * 0.8 + 0.2, // 0.2 to 1
+          speed: Math.random() * 0.05 + 0.01 // How fast the star twinkles
+        });
+      }
+    };
+    
+    // Animation loop
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      // Draw each star
+      stars.forEach(star => {
+        ctx.beginPath();
+        
+        // Twinkle effect by changing opacity
+        star.opacity += Math.sin(Date.now() * star.speed) * 0.02;
+        star.opacity = Math.max(0.1, Math.min(1, star.opacity));
+        
+        // Draw the star
+        ctx.fillStyle = `rgba(255, 233, 174, ${star.opacity})`;
+        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      
+      requestAnimationFrame(animate);
+    };
+    
+    // Initial setup
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    animate();
+    
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', resizeCanvas);
+    };
+  }, []);
+
   return (
     <MainLayout>
       <div className="container mx-auto px-4 py-12">
-        {/* Decorative elements */}
-        <div className="absolute top-32 left-10 w-28 h-28 opacity-10 pointer-events-none">
-          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-            <rect x="20" y="20" width="60" height="60" stroke="hsl(45 100% 60%)" strokeWidth="0.5" />
-            <rect x="30" y="30" width="40" height="40" stroke="hsl(45 100% 60%)" strokeWidth="0.5" />
-            <rect x="40" y="40" width="20" height="20" stroke="hsl(45 100% 60%)" strokeWidth="0.5" />
-          </svg>
-        </div>
-        
-        <div className="absolute bottom-32 right-10 w-32 h-32 opacity-10 pointer-events-none">
-          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-            <circle cx="50" cy="50" r="40" stroke="hsl(45 100% 60%)" strokeWidth="0.5" />
-            <path d="M30 50 L70 50" stroke="hsl(45 100% 60%)" strokeWidth="0.5" />
-            <path d="M50 30 L50 70" stroke="hsl(45 100% 60%)" strokeWidth="0.5" />
-          </svg>
+        {/* Twinkling stars animation */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <canvas 
+            ref={canvasRef} 
+            className="absolute top-0 left-0 w-full h-full opacity-60"
+          />
         </div>
 
         <div className="text-center mb-12 relative">
