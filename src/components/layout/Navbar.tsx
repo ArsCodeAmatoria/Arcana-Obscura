@@ -96,7 +96,7 @@ export default function Navbar() {
         scrolled 
           ? 'bg-background/95 backdrop-blur-md shadow-lg shadow-black/20' 
           : 'bg-background/80 backdrop-blur-sm'
-      } border-b border-border/40`}
+      }`}
     >
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <Link href="/" className="group relative">
@@ -116,7 +116,7 @@ export default function Navbar() {
                 variant={active ? "default" : "ghost"}
                 size="sm"
                 asChild
-                className={`transition-all duration-300 ${active ? "mystical-glow border border-primary/20" : "hover:border-accent/20 border border-transparent"}`}
+                className={`transition-all duration-300 ${active ? "mystical-glow border border-primary/10" : "hover:border-accent/20 border border-transparent"}`}
               >
                 <Link href={item.href} className="flex items-center">
                   {item.icon}
@@ -137,7 +137,7 @@ export default function Navbar() {
                 <ChevronDown className="ml-1 w-4 h-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56 bg-card/90 backdrop-blur-sm border-border/50">
+            <DropdownMenuContent align="end" className="w-56 bg-card/90 backdrop-blur-sm border-border/30">
               {navItems.slice(3).map((item) => (
                 <DropdownMenuItem key={item.href} asChild className="cursor-pointer">
                   <Link href={item.href} className="flex items-start gap-3 py-2">
@@ -167,7 +167,7 @@ export default function Navbar() {
                 <Menu className="w-5 h-5" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-72 bg-card/90 backdrop-blur-sm border-border/50">
+            <DropdownMenuContent align="end" className="w-72 bg-card/90 backdrop-blur-sm border-border/30">
               <DropdownMenuLabel className="text-accent font-esoterica">Navigation</DropdownMenuLabel>
               <DropdownMenuSeparator />
               {navItems.map((item) => (

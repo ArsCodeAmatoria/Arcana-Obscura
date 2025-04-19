@@ -31,7 +31,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
         {children}
       </main>
       
-      <footer className="py-8 border-t border-border/30 bg-card/30 backdrop-blur-sm relative">
+      <footer className="py-8 border-t border-border/20 bg-card/30 backdrop-blur-sm relative">
         <div className="container mx-auto px-4 text-center">
           <div className="mb-4 text-accent/80">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20" fill="none" className="w-32 h-8 mx-auto">

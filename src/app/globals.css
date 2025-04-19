@@ -60,7 +60,7 @@
   --accent-foreground: 240 20% 3%;
   --destructive: 0 80% 45%;
   --destructive-foreground: 0 0% 95%;
-  --border: 240 8% 12%;
+  --border: 240 8% 8%;      /* Darker gray for borders */
   --input: 240 8% 12%;
   --ring: 45 100% 60%;
   --chart-1: oklch(0.646 0.222 41.116);

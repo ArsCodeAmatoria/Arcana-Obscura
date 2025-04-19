@@ -98,7 +98,7 @@ export default function HomePage() {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Pillars of Mystery */}
-          <Card className="bg-card/50 backdrop-blur-sm border-primary/10 card-glow group hover:border-accent/30 transition-all duration-500">
+          <Card className="bg-card/50 backdrop-blur-sm border-primary/5 card-glow group hover:border-accent/30 transition-all duration-500">
             <CardContent className="p-8">
               <div className="mb-6 flex justify-center">
                 <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-all duration-300">
@@ -121,7 +121,7 @@ export default function HomePage() {
           </Card>
           
           {/* Esoteric Atlas */}
-          <Card className="bg-card/50 backdrop-blur-sm border-primary/10 card-glow group hover:border-accent/30 transition-all duration-500">
+          <Card className="bg-card/50 backdrop-blur-sm border-primary/5 card-glow group hover:border-accent/30 transition-all duration-500">
             <CardContent className="p-8">
               <div className="mb-6 flex justify-center">
                 <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-all duration-300">
@@ -144,7 +144,7 @@ export default function HomePage() {
           </Card>
           
           {/* Alchemical Timeline */}
-          <Card className="bg-card/50 backdrop-blur-sm border-primary/10 card-glow group hover:border-accent/30 transition-all duration-500">
+          <Card className="bg-card/50 backdrop-blur-sm border-primary/5 card-glow group hover:border-accent/30 transition-all duration-500">
             <CardContent className="p-8">
               <div className="mb-6 flex justify-center">
                 <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-all duration-300">
@@ -167,7 +167,7 @@ export default function HomePage() {
           </Card>
           
           {/* The Secret Library */}
-          <Card className="bg-card/50 backdrop-blur-sm border-primary/10 card-glow group hover:border-accent/30 transition-all duration-500">
+          <Card className="bg-card/50 backdrop-blur-sm border-primary/5 card-glow group hover:border-accent/30 transition-all duration-500">
             <CardContent className="p-8">
               <div className="mb-6 flex justify-center">
                 <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-all duration-300">
@@ -190,7 +190,7 @@ export default function HomePage() {
           </Card>
           
           {/* The Inner Chamber */}
-          <Card className="bg-card/50 backdrop-blur-sm border-primary/10 card-glow group hover:border-accent/30 transition-all duration-500">
+          <Card className="bg-card/50 backdrop-blur-sm border-primary/5 card-glow group hover:border-accent/30 transition-all duration-500">
             <CardContent className="p-8">
               <div className="mb-6 flex justify-center">
                 <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-all duration-300">
@@ -213,7 +213,7 @@ export default function HomePage() {
           </Card>
           
           {/* Daily Oracle */}
-          <Card className="bg-card/50 backdrop-blur-sm border-primary/10 card-glow group hover:border-accent/30 transition-all duration-500">
+          <Card className="bg-card/50 backdrop-blur-sm border-primary/5 card-glow group hover:border-accent/30 transition-all duration-500">
             <CardContent className="p-8">
               <div className="mb-6 flex justify-center">
                 <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-all duration-300">
@@ -238,7 +238,7 @@ export default function HomePage() {
       </section>
       
       {/* Final Call to Action */}
-      <section className="bg-card/30 backdrop-blur-sm py-16 border-t border-border/30">
+      <section className="bg-card/30 backdrop-blur-sm py-16 border-t border-border/20">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-3xl font-esoterica mb-6 text-accent/90">Begin Your Mystical Journey</h2>
