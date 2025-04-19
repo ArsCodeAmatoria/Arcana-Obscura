@@ -8,168 +8,38 @@ import Link from 'next/link';
 import { Eye, BookOpen, MapPin, Clock, Scroll, Sparkles, Layers, BookMarked, ArrowRight } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
-// Simple static hero component for when animation fails
-function StaticHeroBackground() {
-  return (
-    <div className="relative w-full h-[60vh] bg-gradient-to-b from-background to-primary/5 overflow-hidden">
-      {/* Decorative circle patterns */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px]">
-          <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full animate-slow-spin">
-            <circle cx="100" cy="100" r="80" stroke="hsl(var(--accent) / 0.2)" strokeWidth="0.5" />
-            <circle cx="100" cy="100" r="60" stroke="hsl(var(--accent) / 0.15)" strokeWidth="0.5" />
-            <circle cx="100" cy="100" r="40" stroke="hsl(var(--accent) / 0.2)" strokeWidth="0.5" />
-            
-            <path d="M 100 20 L 100 180" stroke="hsl(var(--accent) / 0.15)" strokeWidth="0.5" strokeDasharray="1 3" />
-            <path d="M 20 100 L 180 100" stroke="hsl(var(--accent) / 0.15)" strokeWidth="0.5" strokeDasharray="1 3" />
-            
-            <g className="animate-pulse">
-              <path d="M 100 60 L 140 120 L 60 120 Z" stroke="hsl(var(--accent) / 0.3)" strokeWidth="0.5" fill="none" />
-              <path d="M 100 140 L 60 80 L 140 80 Z" stroke="hsl(var(--accent) / 0.3)" strokeWidth="0.5" fill="none" />
-            </g>
-          </svg>
-        </div>
-        
-        {/* Stars background */}
-        <div className="absolute inset-0">
-          {Array.from({ length: 100 }).map((_, i) => (
-            <div 
-              key={i} 
-              className="absolute rounded-full bg-white animate-twinkle"
-              style={{ 
-                top: `${Math.random() * 100}%`, 
-                left: `${Math.random() * 100}%`,
-                width: `${Math.random() * 2 + 1}px`,
-                height: `${Math.random() * 2 + 1}px`,
-                opacity: Math.random() * 0.3,
-                animationDelay: `${Math.random() * 5}s`
-              }}
-            />
-          ))}
-        </div>
-        
-        {/* Alchemical symbols */}
-        <div className="absolute top-1/4 right-1/4 text-accent/40 text-xl">☿</div>
-        <div className="absolute bottom-1/3 left-1/4 text-accent/40 text-xl">☽</div>
-        <div className="absolute top-2/3 right-1/3 text-accent/40 text-xl">☉</div>
+// Dynamic import for our animation component to avoid SSR issues
+const EsotericSymbolsAnimation = dynamic(
+  () => import('@/components/home/EsotericSymbolsAnimation'),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-[60vh] bg-background flex items-center justify-center">
+        <div className="text-accent animate-pulse font-esoterica">Manifesting...</div>
       </div>
-    </div>
-  );
-}
-
-// Dynamic import for the Three.js component to avoid SSR issues
-const CosmicAnimationDynamic = dynamic(() => import('@/components/home/CosmicAnimation'), {
-  ssr: false,
-  loading: () => <div className="w-full h-[60vh] bg-background flex items-center justify-center">
-    <div className="text-accent animate-pulse font-esoterica">Manifesting...</div>
-  </div>
-});
+    )
+  }
+);
 
 export default function HomePage() {
   const [showContent, setShowContent] = useState(false);
-  const [animationFailed, setAnimationFailed] = useState(false);
-  const [lowPerformanceDetected, setLowPerformanceDetected] = useState(false);
   
   useEffect(() => {
-    // Show content after animation loads or after timeout
+    // Show content after a short delay
     const timer = setTimeout(() => {
       setShowContent(true);
-    }, 2000); // Wait for animation or timeout after 2 seconds
+    }, 2000);
     
     return () => clearTimeout(timer);
-  }, []);
-
-  // Handle WebGL context failures
-  useEffect(() => {
-    // Function to detect WebGL compatibility more thoroughly
-    const checkWebGLCompatibility = () => {
-      try {
-        const canvas = document.createElement('canvas');
-        const gl = canvas.getContext('webgl') || 
-                  canvas.getContext('experimental-webgl');
-        
-        if (!gl) {
-          console.error('WebGL not supported');
-          setAnimationFailed(true);
-          return false;
-        }
-        
-        // Check for key extensions and capabilities
-        const extensions = {
-          floatTextures: (gl as WebGLRenderingContext).getExtension('OES_texture_float'),
-          depthTexture: (gl as WebGLRenderingContext).getExtension('WEBGL_depth_texture'),
-          drawBuffers: (gl as WebGLRenderingContext).getExtension('WEBGL_draw_buffers')
-        };
-        
-        // If too many capabilities missing, use low performance mode
-        const missingExtensions = Object.values(extensions).filter(ext => !ext).length;
-        if (missingExtensions >= 2) {
-          console.log('Limited WebGL capabilities, using low performance mode');
-          setLowPerformanceDetected(true);
-        }
-        
-        // Check max texture size - if very small, it's likely a lower-end device
-        const maxTextureSize = (gl as WebGLRenderingContext).getParameter((gl as WebGLRenderingContext).MAX_TEXTURE_SIZE);
-        if (maxTextureSize < 4096) {
-          console.log('Small max texture size, using low performance mode');
-          setLowPerformanceDetected(true);
-        }
-        
-        return true;
-      } catch (e) {
-        console.error('WebGL detection error:', e);
-        setAnimationFailed(true);
-        return false;
-      }
-    };
-
-    const handleError = (event: ErrorEvent) => {
-      // Only react to WebGL errors
-      const errorMsg = event.message || (event.error && event.error.message) || '';
-      if (errorMsg.includes('WebGL') || 
-          errorMsg.includes('Shader') || 
-          errorMsg.includes('CONTEXT_LOST_WEBGL') ||
-          errorMsg.includes('GPU') ||
-          errorMsg.includes('hardware')) {
-        console.error('WebGL related error caught:', errorMsg);
-        setAnimationFailed(true);
-      }
-    };
-
-    // Check compatibility first
-    checkWebGLCompatibility();
-
-    // Listen for various WebGL related errors
-    window.addEventListener('webglcontextlost', () => setAnimationFailed(true));
-    window.addEventListener('error', handleError);
-    window.addEventListener('unhandledrejection', (event: PromiseRejectionEvent) => {
-      if (event.reason && typeof event.reason.message === 'string' && 
-          event.reason.message.includes('WebGL')) {
-        setAnimationFailed(true);
-      }
-    });
-
-    return () => {
-      window.removeEventListener('webglcontextlost', () => setAnimationFailed(true));
-      window.removeEventListener('error', handleError);
-      window.removeEventListener('unhandledrejection', (event: PromiseRejectionEvent) => {});
-    };
   }, []);
   
   return (
     <MainLayout>
-      {/* Hero Section with 3D Animation */}
+      {/* Hero Section with Esoteric Symbols Animation */}
       <section className="relative w-full h-[60vh] overflow-hidden">
-        {animationFailed ? (
-          <StaticHeroBackground />
-        ) : (
-          <div className="fixed inset-0 z-0 overflow-hidden">
-            <CosmicAnimationDynamic 
-              initialLowPerformance={lowPerformanceDetected}
-              onError={() => setAnimationFailed(true)}
-            />
-          </div>
-        )}
+        <div className="absolute inset-0 z-0 bg-gradient-to-b from-background to-primary/5">
+          <EsotericSymbolsAnimation maxSymbols={50} />
+        </div>
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-8">
           <div className="text-center max-w-4xl px-4">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-esoterica text-center text-accent mb-6 drop-shadow-glow">
