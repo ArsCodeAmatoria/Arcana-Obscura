@@ -22,8 +22,8 @@ interface FloatingSymbolProps {
   speed: number;
 }
 
-// Golden Ratio spiral points generator
-function goldenSpiralPoints(turns = 3, pointsPerTurn = 20) {
+// Golden Ratio spiral points generator - now with fewer points for better performance
+function goldenSpiralPoints(turns = 3, pointsPerTurn = 15) {
   const points = [];
   const totalPoints = turns * pointsPerTurn;
   const goldenRatio = 1.618033988749895;
@@ -45,20 +45,18 @@ function CelestialSphere() {
   
   useFrame(() => {
     if (meshRef.current) {
-      meshRef.current.rotation.y += 0.002;
-      meshRef.current.rotation.z += 0.001;
+      // Reduced rotation speed for better performance
+      meshRef.current.rotation.y += 0.001;
+      meshRef.current.rotation.z += 0.0005;
     }
   });
 
   return (
     <mesh ref={meshRef} position={[0, 0, 0]}>
-      <sphereGeometry args={[2.5, 48, 48]} />
-      <meshStandardMaterial
+      {/* Reduced segment count for better performance */}
+      <sphereGeometry args={[2.5, 32, 32]} />
+      <meshBasicMaterial
         color="#271a45"
-        metalness={0.8}
-        roughness={0.5}
-        emissive="#271a45"
-        emissiveIntensity={0.3}
         wireframe
       />
     </mesh>
@@ -67,12 +65,13 @@ function CelestialSphere() {
 
 function GoldenSpiral() {
   const spiralRef = useRef<THREE.Line>(null);
-  const points = goldenSpiralPoints(5, 40);
+  const points = goldenSpiralPoints(4, 30); // Reduced points for better performance
   
   useFrame(({ clock }) => {
     if (spiralRef.current) {
-      spiralRef.current.rotation.y = clock.getElapsedTime() * 0.1;
-      spiralRef.current.rotation.z = Math.sin(clock.getElapsedTime() * 0.2) * 0.3;
+      // Use slower rotation for better stability
+      spiralRef.current.rotation.y = clock.getElapsedTime() * 0.05;
+      spiralRef.current.rotation.z = Math.sin(clock.getElapsedTime() * 0.1) * 0.2;
     }
   });
   
@@ -96,42 +95,43 @@ function MysticalSymbols() {
   
   useFrame(({ clock }) => {
     if (groupRef.current) {
-      groupRef.current.rotation.y = Math.sin(clock.getElapsedTime() * 0.3) * 0.2;
-      groupRef.current.rotation.x = Math.cos(clock.getElapsedTime() * 0.2) * 0.1;
+      // Reduced animation speed for better stability
+      groupRef.current.rotation.y = Math.sin(clock.getElapsedTime() * 0.2) * 0.1;
+      groupRef.current.rotation.x = Math.cos(clock.getElapsedTime() * 0.1) * 0.05;
     }
   });
 
   return (
     <group ref={groupRef}>
-      {/* Golden pentagram */}
+      {/* Golden pentagram - reduced geometry complexity */}
       <mesh position={[0, 0.5, 0]} rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[0.8, 0.03, 16, 5]} />
-        <meshStandardMaterial color="#ffd700" metalness={1} roughness={0.3} />
+        <torusGeometry args={[0.8, 0.03, 8, 5]} />
+        <meshBasicMaterial color="#ffd700" />
       </mesh>
       
-      {/* Eye symbol */}
+      {/* Eye symbol - simplified */}
       <mesh position={[0, 0, 0]}>
-        <sphereGeometry args={[0.2, 32, 16]} />
-        <meshStandardMaterial color="#ffd700" metalness={0.8} roughness={0.2} />
+        <sphereGeometry args={[0.2, 16, 8]} />
+        <meshBasicMaterial color="#ffd700" />
       </mesh>
 
-      {/* Orbit circles */}
+      {/* Orbit circles - reduced segments */}
       <mesh position={[0, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
-        <ringGeometry args={[1.2, 1.23, 64]} />
-        <meshStandardMaterial color="#9774ff" transparent opacity={0.4} side={THREE.DoubleSide} />
+        <ringGeometry args={[1.2, 1.23, 32]} />
+        <meshBasicMaterial color="#9774ff" transparent opacity={0.4} side={THREE.DoubleSide} />
       </mesh>
       
       <mesh position={[0, 0, 0]} rotation={[Math.PI / 3, Math.PI / 6, 0]}>
-        <ringGeometry args={[1.5, 1.53, 64]} />
-        <meshStandardMaterial color="#ffd700" transparent opacity={0.3} side={THREE.DoubleSide} />
+        <ringGeometry args={[1.5, 1.53, 32]} />
+        <meshBasicMaterial color="#ffd700" transparent opacity={0.3} side={THREE.DoubleSide} />
       </mesh>
       
-      {/* Small orbiting spheres */}
-      {[1, 2, 3, 4, 5, 6, 7].map((i) => (
+      {/* Reduced number of orbiting spheres */}
+      {[1, 3, 5].map((i) => (
         <OrbitingSphere 
           key={i} 
           radius={1.5 + i * 0.15} 
-          speed={0.2 - i * 0.02} 
+          speed={0.15 - i * 0.02} 
           offset={i * Math.PI / 3.5}
           size={0.05}
           color={i % 2 === 0 ? "#9774ff" : "#ffd700"}
@@ -155,18 +155,17 @@ function OrbitingSphere({ radius, speed, offset, size, color }: OrbitingSpherePr
   
   return (
     <mesh ref={ref}>
-      <sphereGeometry args={[size, 16, 16]} />
-      <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.5} />
+      <sphereGeometry args={[size, 8, 8]} />
+      <meshBasicMaterial color={color} />
     </mesh>
   );
 }
 
 function FloatingSymbols() {
+  // Reduced number of symbols
   const symbols = [
     { symbol: "☿", position: [1.5, 0.8, -1] as [number, number, number], rotation: [0, 0, 0] as [number, number, number] },
     { symbol: "☽", position: [-1.8, 1.2, 0.5] as [number, number, number], rotation: [0, 0, 0] as [number, number, number] },
-    { symbol: "♄", position: [0.8, -1.5, 1] as [number, number, number], rotation: [0, 0, 0] as [number, number, number] },
-    { symbol: "⊕", position: [-1.2, -0.8, -1.5] as [number, number, number], rotation: [0, 0, 0] as [number, number, number] },
   ];
   
   return (
@@ -190,8 +189,9 @@ function FloatingSymbol({ symbol, position, rotation, speed }: FloatingSymbolPro
   useFrame(({ clock }) => {
     if (textRef.current) {
       const t = clock.getElapsedTime();
-      textRef.current.position.y += Math.sin(t * speed) * 0.0008;
-      textRef.current.rotation.y = Math.sin(t * 0.2) * 0.3;
+      // Reduced movement for better stability
+      textRef.current.position.y += Math.sin(t * speed) * 0.0004;
+      textRef.current.rotation.y = Math.sin(t * 0.1) * 0.2;
     }
   });
   
@@ -213,35 +213,66 @@ function FloatingSymbol({ symbol, position, rotation, speed }: FloatingSymbolPro
 }
 
 export default function CosmicAnimation() {
+  // Add a handler for context loss events
+  useEffect(() => {
+    const handleContextLoss = (event: Event) => {
+      event.preventDefault();
+      console.log('WebGL context lost. Trying to restore...');
+    };
+
+    const handleContextRestored = () => {
+      console.log('WebGL context restored.');
+    };
+
+    // Add event listeners for context loss and restoration
+    window.addEventListener('webglcontextlost', handleContextLoss);
+    window.addEventListener('webglcontextrestored', handleContextRestored);
+
+    return () => {
+      window.removeEventListener('webglcontextlost', handleContextLoss);
+      window.removeEventListener('webglcontextrestored', handleContextRestored);
+    };
+  }, []);
+
   return (
     <div className="w-full h-full">
-      <Canvas camera={{ position: [0, 0, 6], fov: 45 }}>
+      <Canvas 
+        camera={{ position: [0, 0, 6], fov: 45 }}
+        gl={{ 
+          powerPreference: 'default',
+          alpha: false,
+          antialias: false,
+          stencil: false,
+          depth: true
+        }}
+        frameloop="demand"
+        dpr={[1, 1.5]} // Limit pixel ratio for better performance
+      >
         <color attach="background" args={['#050510']} />
         <ambientLight intensity={0.2} />
-        <pointLight position={[10, 10, 10]} intensity={0.8} color="#9774ff" />
-        <pointLight position={[-10, -10, -10]} intensity={0.5} color="#ff747c" />
+        <pointLight position={[10, 10, 10]} intensity={0.4} color="#9774ff" />
         
         <CelestialSphere />
         <MysticalSymbols />
         <GoldenSpiral />
         <FloatingSymbols />
         
-        {/* Enhance stars with custom parameters */}
+        {/* Reduced star count */}
         <Stars 
           radius={70} 
           depth={50} 
-          count={3000} 
+          count={1500} 
           factor={4} 
           fade 
-          speed={0.5} 
+          speed={0.3} 
         />
         
         <OrbitControls 
           enableZoom={false}
           enablePan={false}
-          rotateSpeed={0.3}
+          rotateSpeed={0.2}
           autoRotate
-          autoRotateSpeed={0.3}
+          autoRotateSpeed={0.2}
         />
       </Canvas>
     </div>
