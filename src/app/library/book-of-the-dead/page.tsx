@@ -33,7 +33,7 @@ export default function BookOfTheDeadPage() {
             <span className="text-xs bg-secondary/10 text-secondary-foreground px-3 py-1 rounded-full">
               Funerary Texts
             </span>
-            <span className="text-xs bg-accent/10 text-accent-foreground px-3 py-1 rounded-full">
+            <span className="text-xs bg-accent/10 text-foreground font-medium px-3 py-1 rounded-full">
               c. 1550 BCE
             </span>
           </div>

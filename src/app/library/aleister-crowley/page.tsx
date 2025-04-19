@@ -33,7 +33,7 @@ export default function AleisterCrowleyPage() {
             <span className="text-xs bg-secondary/10 text-secondary-foreground px-3 py-1 rounded-full">
               Thelema
             </span>
-            <span className="text-xs bg-accent/10 text-accent-foreground px-3 py-1 rounded-full">
+            <span className="text-xs bg-accent/10 text-foreground font-medium px-3 py-1 rounded-full">
               1875-1947
             </span>
           </div>
