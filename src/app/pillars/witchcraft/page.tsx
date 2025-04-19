@@ -1,6 +1,6 @@
 import MainLayout from '@/components/layout/MainLayout';
 import { Card, CardContent } from '@/components/ui/card';
-import { Wand, Flame, PenTool, Flask, Scroll, Heart, Sparkles } from 'lucide-react';
+import { Wand, Flame, PenTool, Beaker, Scroll, Heart, Sparkles } from 'lucide-react';
 
 export default function WitchcraftPage() {
   return (
@@ -92,7 +92,7 @@ export default function WitchcraftPage() {
                     <span><span className="font-semibold">Herbalism</span> - Working with plants for healing, protection, and spiritual purposes</span>
                   </li>
                   <li className="flex items-start">
-                    <Flask className="w-5 h-5 text-accent mr-2 mt-0.5 flex-shrink-0" />
+                    <Beaker className="w-5 h-5 text-accent mr-2 mt-0.5 flex-shrink-0" />
                     <span><span className="font-semibold">Divination</span> - Various methods of seeking insight or prophecy, including tarot, runes, and scrying</span>
                   </li>
                 </ul>
