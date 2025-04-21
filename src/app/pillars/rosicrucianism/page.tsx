@@ -137,10 +137,166 @@ export default function RosicrucianismPage() {
           </div>
         </div>
 
-        <blockquote className="border-l-4 border-accent pl-4 py-2 italic text-xl text-muted-foreground max-w-3xl mx-auto">
+        <blockquote className="border-l-4 border-accent pl-6 py-4 italic text-xl text-muted-foreground max-w-3xl mx-auto mb-12 bg-card/30 backdrop-blur-sm rounded-r-md">
           "The highest wisdom is to know nothing." <br />
-          <span className="text-sm not-italic block mt-2">- Attributed to Christian Rosenkreuz</span>
+          <span className="text-sm not-italic block mt-2 text-accent/80">- Attributed to Christian Rosenkreuz</span>
         </blockquote>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+          <Card className="bg-card/50 backdrop-blur-sm border-primary/10 card-glow">
+            <CardContent className="p-8">
+              <h2 className="text-3xl font-esoterica mb-6 text-primary">The Rosicrucian Manifestos</h2>
+              <p className="mb-4 text-foreground/90 leading-relaxed">
+                The Rosicrucian movement emerged publicly with the publication of three anonymous manifestos in the early 17th century that sent 
+                shockwaves through European intellectual circles. These texts introduced the story of Christian Rosenkreuz and the Brotherhood of the Rosy Cross:
+              </p>
+              
+              <div className="space-y-6 mt-6">
+                <div className="bg-card/30 p-4 rounded-lg border border-primary/10">
+                  <h3 className="text-xl font-semibold text-accent mb-3">Fama Fraternitatis (1614)</h3>
+                  <p className="text-foreground/80">
+                    The "Fame of the Brotherhood" tells the life story of Christian Rosenkreuz (1378-1484), who journeyed to the Middle East 
+                    and North Africa, learning secret wisdom from sages in Damascus, Egypt, and Morocco. Upon returning to Europe, he founded 
+                    the "Fraternity of the Rose Cross" with a small group of disciples. After his death, his tomb remained hidden for 120 years 
+                    before being discovered by the Brotherhood, perfectly preserved and containing secret knowledge.
+                  </p>
+                </div>
+                
+                <div className="bg-card/30 p-4 rounded-lg border border-primary/10">
+                  <h3 className="text-xl font-semibold text-accent mb-3">Confessio Fraternitatis (1615)</h3>
+                  <p className="text-foreground/80">
+                    The "Confession of the Brotherhood" expanded on the Fama, outlining the Brotherhood's goals for reforming society, science, 
+                    philosophy, and religion. It emphasized the impending dawn of a new age of enlightenment and the Brotherhood's role in 
+                    this universal reformation, while also criticizing the corruptions of contemporary religious and political institutions.
+                  </p>
+                </div>
+                
+                <div className="bg-card/30 p-4 rounded-lg border border-primary/10">
+                  <h3 className="text-xl font-semibold text-accent mb-3">The Chemical Wedding of Christian Rosenkreuz (1616)</h3>
+                  <p className="text-foreground/80">
+                    This allegorical romance describes Christian Rosenkreuz's journey to a mysterious castle to attend the wedding of a king and queen. 
+                    Written as a complex alchemical allegory, the text describes processes of spiritual purification, death, and rebirth through symbolic 
+                    trials and transformations. Unlike the first two manifestos, it was later acknowledged to be written by Johann Valentin Andreae.
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-card/50 backdrop-blur-sm border-primary/10 card-glow">
+            <CardContent className="p-8">
+              <h2 className="text-3xl font-esoterica mb-6 text-primary">Historical Development</h2>
+              <div className="space-y-4">
+                <div>
+                  <h3 className="font-semibold text-accent mb-1">The Rosicrucian Furor (1614-1625)</h3>
+                  <p className="text-foreground/80">
+                    Following the publication of the manifestos, a "Rosicrucian fever" swept Europe. Hundreds of pamphlets and books were published 
+                    either in support of or against the Brotherhood. Despite many attempts, no one could locate the actual Rosicrucian order, leading 
+                    some scholars to suggest it was a "ludibrium" (playful hoax) with serious philosophical intent.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-accent mb-1">Influence on Early Science (17th Century)</h3>
+                  <p className="text-foreground/80">
+                    Rosicrucian ideas influenced early scientific thinking through figures like Robert Boyle, Elias Ashmole, and possibly members of the 
+                    Royal Society. The concept of the "invisible college" of learned individuals working toward knowledge advancement paralleled the 
+                    development of scientific societies.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-accent mb-1">Integration with Freemasonry (18th Century)</h3>
+                  <p className="text-foreground/80">
+                    During the 18th century, Rosicrucian elements were incorporated into various Masonic rites and high-degree systems. The Gold- und 
+                    Rosenkreuzer order in Germany claimed Rosicrucian heritage and influenced the development of various mystical Masonic systems.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-accent mb-1">Modern Revival (19th-20th Century)</h3>
+                  <p className="text-foreground/80">
+                    The 19th century saw numerous revival attempts, including the Societas Rosicruciana in Anglia (1866) and the Hermetic Order of the 
+                    Golden Dawn (1888). In the early 20th century, organizations like AMORC (Ancient Mystical Order Rosae Crucis), founded by H. Spencer 
+                    Lewis in 1915, and Max Heindel's Rosicrucian Fellowship (1909) popularized Rosicrucian teachings for modern audiences.
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+          <Card className="lg:col-span-2 bg-card/50 backdrop-blur-sm border-primary/10 card-glow">
+            <CardContent className="p-8">
+              <h2 className="text-3xl font-esoterica mb-6 text-primary">Rosicrucian Symbolism</h2>
+              <div className="flex flex-col md:flex-row gap-8">
+                <div className="md:w-2/3">
+                  <p className="mb-4 text-foreground/90 leading-relaxed">
+                    The central emblem of Rosicrucianism—the Rose Cross—contains layers of symbolic meaning. The cross represents the physical world, 
+                    matter, and the four elements. The rose, blooming at the center, symbolizes unfolding consciousness, divine love, and spiritual 
+                    awakening emerging from material existence.
+                  </p>
+                  <p className="mb-4 text-foreground/90 leading-relaxed">
+                    The rose typically bears seven petals, representing the seven classical planets, the seven alchemical metals, and the seven stages 
+                    of spiritual transformation. The combination of rose and cross represents the reconciliation of opposites: spirit and matter, 
+                    masculine and feminine, mortality and immortality.
+                  </p>
+                  <p className="text-foreground/90 leading-relaxed">
+                    The legendary Vault of Christian Rosenkreuz, described in the Fama Fraternitatis, contains potent symbolic elements. The circular 
+                    vault with seven sides represents celestial perfection. Each wall corresponds to a planet and contains symbolic illustrations and 
+                    magical formulae. At the center stands an altar with secret inscriptions revealing cosmic mysteries.
+                  </p>
+                </div>
+                
+                <div className="md:w-1/3 flex justify-center items-center">
+                  <div className="relative w-full max-w-[180px]">
+                    <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
+                      {/* Simple Rose Cross */}
+                      <rect x="90" y="40" width="20" height="120" fill="none" stroke="hsl(45 100% 60%)" strokeWidth="1" />
+                      <rect x="40" y="90" width="120" height="20" fill="none" stroke="hsl(45 100% 60%)" strokeWidth="1" />
+                      <circle cx="100" cy="100" r="30" fill="none" stroke="hsl(345 80% 50%)" strokeWidth="1" />
+                      
+                      {/* Rose petals */}
+                      <path d="M100 70 Q110 85 100 100 Q90 85 100 70" fill="none" stroke="hsl(345 80% 50%)" strokeWidth="0.5" />
+                      <path d="M100 100 Q110 115 100 130 Q90 115 100 100" fill="none" stroke="hsl(345 80% 50%)" strokeWidth="0.5" />
+                      <path d="M70 100 Q85 110 100 100 Q85 90 70 100" fill="none" stroke="hsl(345 80% 50%)" strokeWidth="0.5" />
+                      <path d="M100 100 Q115 110 130 100 Q115 90 100 100" fill="none" stroke="hsl(345 80% 50%)" strokeWidth="0.5" />
+                      <path d="M85 85 Q95 95 100 100 Q90 95 85 85" fill="none" stroke="hsl(345 80% 50%)" strokeWidth="0.5" />
+                      <path d="M115 115 Q105 105 100 100 Q110 105 115 115" fill="none" stroke="hsl(345 80% 50%)" strokeWidth="0.5" />
+                      <path d="M85 115 Q95 105 100 100 Q90 105 85 115" fill="none" stroke="hsl(345 80% 50%)" strokeWidth="0.5" />
+                      <path d="M115 85 Q105 95 100 100 Q110 95 115 85" fill="none" stroke="hsl(345 80% 50%)" strokeWidth="0.5" />
+                      
+                      <circle cx="100" cy="100" r="10" fill="none" stroke="hsl(345 80% 50%)" strokeWidth="0.5" />
+                    </svg>
+                    <div className="absolute inset-0 bg-accent/5 rounded-full blur-xl -z-10"></div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-card/50 backdrop-blur-sm border-primary/10 card-glow">
+            <CardContent className="p-8">
+              <h2 className="text-3xl font-esoterica mb-6 text-primary">Modern Organizations</h2>
+              <ul className="space-y-4">
+                <li className="group">
+                  <h3 className="font-semibold text-accent mb-1">AMORC</h3>
+                  <p className="text-foreground/80">The Ancient Mystical Order Rosae Crucis, founded by H. Spencer Lewis in 1915, offers a structured system of monographs exploring mystical principles.</p>
+                </li>
+                <li className="group">
+                  <h3 className="font-semibold text-accent mb-1">Rosicrucian Fellowship</h3>
+                  <p className="text-foreground/80">Founded by Max Heindel in 1909, it emphasizes Christian esotericism, astrology, and healing, based on teachings allegedly received from Elder Brothers of the Rose Cross.</p>
+                </li>
+                <li className="group">
+                  <h3 className="font-semibold text-accent mb-1">Lectorium Rosicrucianum</h3>
+                  <p className="text-foreground/80">Established by Jan van Rijckenborgh in 1924, it focuses on the path of transfiguration and spiritual rebirth through what it calls the "Gnostic-Christian mysteries."</p>
+                </li>
+                <li className="group">
+                  <h3 className="font-semibold text-accent mb-1">SRIA</h3>
+                  <p className="text-foreground/80">The Societas Rosicruciana in Anglia, founded in 1866, is a Masonic Rosicrucian society dedicated to the study of metaphysics and the spiritual sciences.</p>
+                </li>
+              </ul>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </MainLayout>
   );
