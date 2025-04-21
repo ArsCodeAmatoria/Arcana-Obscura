@@ -122,7 +122,7 @@ export default function AtlasPage() {
                     <h3 className="font-bold text-foreground/90 group-hover:text-accent transition-colors">Great Pyramid of Giza</h3>
                     <p className="text-sm text-muted-foreground mt-1">Repository of ancient wisdom encoded in sacred geometry and astronomical alignments.</p>
                     <div className="mt-3 flex justify-end">
-                      <Link href="/pillars/sacred-geometry" className="text-xs text-accent hover:underline">Learn more</Link>
+                      <Link href="/atlas/great-pyramid-of-giza" className="text-xs text-accent hover:underline">Learn more</Link>
                     </div>
                   </CardContent>
                 </Card>
@@ -131,7 +131,7 @@ export default function AtlasPage() {
                     <h3 className="font-bold text-foreground/90 group-hover:text-accent transition-colors">Temple of Apollo at Delphi</h3>
                     <p className="text-sm text-muted-foreground mt-1">The omphalos or navel of the world, where the Pythia delivered oracles from the gods.</p>
                     <div className="mt-3 flex justify-end">
-                      <Link href="/pillars/divination" className="text-xs text-accent hover:underline">Learn more</Link>
+                      <Link href="/atlas/temple-of-apollo-at-delphi" className="text-xs text-accent hover:underline">Learn more</Link>
                     </div>
                   </CardContent>
                 </Card>
