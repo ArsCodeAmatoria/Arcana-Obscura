@@ -1,14 +1,14 @@
 import MainLayout from '@/components/layout/MainLayout';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import Link from 'next/link';
-import { ArrowRight, FlaskConical, Flower, Hammer, Trees, Star, Moon, Sparkles, Wand } from 'lucide-react';
+import { ArrowRight, FlaskConical, Flower, Hammer, Trees, Star, Moon, Sparkles, Wand, Book, Diamond } from 'lucide-react';
 
 const traditions = [
   {
     id: 'hermeticism',
     title: 'Hermeticism',
     description: 'The ancient Egyptian-Greek wisdom tradition attributed to Hermes Trismegistus, teaching that "as above, so below" and the principles of mental alchemy.',
-    icon: <FlaskConical className="w-10 h-10 text-accent icon-glow" />,
+    icon: <Book className="w-10 h-10 text-accent icon-glow" />,
   },
   {
     id: 'rosicrucianism',
@@ -51,6 +51,18 @@ const traditions = [
     title: 'Witchcraft',
     description: 'The ancient and evolving tradition of folk magic, nature wisdom, and feminine spiritual power that has persisted throughout history in various forms.',
     icon: <Wand className="w-10 h-10 text-accent icon-glow" />,
+  },
+  {
+    id: 'alchemy',
+    title: 'Alchemy',
+    description: 'An ancient practice combining elements of chemistry, metallurgy, physics, medicine, and mysticism, focused on the transmutation of matter and spiritual transformation.',
+    icon: <FlaskConical className="w-10 h-10 text-accent icon-glow" />,
+  },
+  {
+    id: 'tarot',
+    title: 'Tarot',
+    description: 'A symbolic system of divination using a deck of 78 cards, each rich with archetypal imagery that reflects the human experience and the journey of consciousness.',
+    icon: <Diamond className="w-10 h-10 text-accent icon-glow" />,
   },
 ];
 
