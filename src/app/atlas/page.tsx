@@ -119,41 +119,57 @@ export default function AtlasPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Link 
                   href="/atlas/great-pyramid-of-giza"
-                  className="group p-4 border border-border rounded-md hover:bg-accent/5 transition-colors flex items-start" 
+                  className="group relative overflow-hidden rounded-lg border border-accent/20 bg-card/60 backdrop-blur-sm p-6 hover:border-accent/40 transition-all hover:shadow-[0_0_20px_rgba(var(--accent-rgb),0.2)]"
                 >
-                  <div className="flex-1">
-                    <h3 className="font-medium group-hover:text-accent transition-colors">Great Pyramid of Giza</h3>
-                    <p className="text-sm text-muted-foreground">Egypt</p>
+                  <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-accent/0 opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                  <Triangle className="w-8 h-8 text-accent mb-3" />
+                  <h3 className="text-xl font-esoterica mb-2 text-primary group-hover:text-accent transition-colors">Great Pyramid of Giza</h3>
+                  <p className="text-muted-foreground text-sm mb-3">The geometric marvel embodying cosmic mathematics and ancient wisdom</p>
+                  <div className="flex items-center text-xs text-muted-foreground">
+                    <MapPin className="w-3 h-3 mr-1" />
+                    <span>Egypt</span>
                   </div>
                 </Link>
                 
                 <Link 
                   href="/atlas/temple-of-apollo-at-delphi"
-                  className="group p-4 border border-border rounded-md hover:bg-accent/5 transition-colors flex items-start" 
+                  className="group relative overflow-hidden rounded-lg border border-accent/20 bg-card/60 backdrop-blur-sm p-6 hover:border-accent/40 transition-all hover:shadow-[0_0_20px_rgba(var(--accent-rgb),0.2)]"
                 >
-                  <div className="flex-1">
-                    <h3 className="font-medium group-hover:text-accent transition-colors">Temple of Apollo at Delphi</h3>
-                    <p className="text-sm text-muted-foreground">Greece</p>
+                  <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-accent/0 opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                  <School className="w-8 h-8 text-accent mb-3" />
+                  <h3 className="text-xl font-esoterica mb-2 text-primary group-hover:text-accent transition-colors">Temple of Apollo at Delphi</h3>
+                  <p className="text-muted-foreground text-sm mb-3">The oracle sanctuary where divine wisdom flowed into the ancient world</p>
+                  <div className="flex items-center text-xs text-muted-foreground">
+                    <MapPin className="w-3 h-3 mr-1" />
+                    <span>Greece</span>
                   </div>
                 </Link>
                 
                 <Link 
                   href="/atlas/rosslyn-chapel"
-                  className="group p-4 border border-border rounded-md hover:bg-accent/5 transition-colors flex items-start" 
+                  className="group relative overflow-hidden rounded-lg border border-accent/20 bg-card/60 backdrop-blur-sm p-6 hover:border-accent/40 transition-all hover:shadow-[0_0_20px_rgba(var(--accent-rgb),0.2)]"
                 >
-                  <div className="flex-1">
-                    <h3 className="font-medium group-hover:text-accent transition-colors">Rosslyn Chapel</h3>
-                    <p className="text-sm text-muted-foreground">Scotland</p>
+                  <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-accent/0 opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                  <Building className="w-8 h-8 text-accent mb-3" />
+                  <h3 className="text-xl font-esoterica mb-2 text-primary group-hover:text-accent transition-colors">Rosslyn Chapel</h3>
+                  <p className="text-muted-foreground text-sm mb-3">A medieval enigma encoded with Templar and Masonic symbolism</p>
+                  <div className="flex items-center text-xs text-muted-foreground">
+                    <MapPin className="w-3 h-3 mr-1" />
+                    <span>Scotland</span>
                   </div>
                 </Link>
                 
                 <Link 
                   href="/atlas/mount-kailash"
-                  className="group p-4 border border-border rounded-md hover:bg-accent/5 transition-colors flex items-start" 
+                  className="group relative overflow-hidden rounded-lg border border-accent/20 bg-card/60 backdrop-blur-sm p-6 hover:border-accent/40 transition-all hover:shadow-[0_0_20px_rgba(var(--accent-rgb),0.2)]"
                 >
-                  <div className="flex-1">
-                    <h3 className="font-medium group-hover:text-accent transition-colors">Mount Kailash</h3>
-                    <p className="text-sm text-muted-foreground">Tibet</p>
+                  <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-accent/0 opacity-50 group-hover:opacity-100 transition-opacity"></div>
+                  <Mountain className="w-8 h-8 text-accent mb-3" />
+                  <h3 className="text-xl font-esoterica mb-2 text-primary group-hover:text-accent transition-colors">Mount Kailash</h3>
+                  <p className="text-muted-foreground text-sm mb-3">The cosmic axis revered by four traditions as the navel of the world</p>
+                  <div className="flex items-center text-xs text-muted-foreground">
+                    <MapPin className="w-3 h-3 mr-1" />
+                    <span>Tibet</span>
                   </div>
                 </Link>
               </div>
@@ -202,7 +218,7 @@ export default function AtlasPage() {
                 </Link>
                 
                 <Link 
-                  href="/pillars/hermeticism"
+                  href="/atlas/school-of-alexandria"
                   className="group relative overflow-hidden rounded-lg border border-accent/20 bg-card/60 backdrop-blur-sm p-6 hover:border-accent/40 transition-all hover:shadow-[0_0_20px_rgba(var(--accent-rgb),0.2)]"
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-accent/0 opacity-50 group-hover:opacity-100 transition-opacity"></div>
@@ -216,7 +232,7 @@ export default function AtlasPage() {
                 </Link>
                 
                 <Link 
-                  href="/pillars/sacred-geometry"
+                  href="/atlas/pythagorean-school"
                   className="group relative overflow-hidden rounded-lg border border-accent/20 bg-card/60 backdrop-blur-sm p-6 hover:border-accent/40 transition-all hover:shadow-[0_0_20px_rgba(var(--accent-rgb),0.2)]"
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-accent/0 opacity-50 group-hover:opacity-100 transition-opacity"></div>
@@ -230,7 +246,7 @@ export default function AtlasPage() {
                 </Link>
                 
                 <Link 
-                  href="/pillars/ritual-magic"
+                  href="/atlas/order-of-the-golden-dawn"
                   className="group relative overflow-hidden rounded-lg border border-accent/20 bg-card/60 backdrop-blur-sm p-6 hover:border-accent/40 transition-all hover:shadow-[0_0_20px_rgba(var(--accent-rgb),0.2)]"
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-accent/0 opacity-50 group-hover:opacity-100 transition-opacity"></div>
