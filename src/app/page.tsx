@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import MainLayout from '@/components/layout/MainLayout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import Link from 'next/link';
 import { Eye, BookOpen, MapPin, Clock, Scroll, Sparkles, Layers, BookMarked, ArrowRight } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import { motion } from 'framer-motion';
 
 // Dynamic import for our animation component to avoid SSR issues
 const FloatingEmbersAnimation = dynamic(
@@ -21,18 +22,28 @@ const FloatingEmbersAnimation = dynamic(
   }
 );
 
+// Animation variants for scroll-triggered content
+const fadeInUpVariants = {
+  hidden: { opacity: 0, y: 60 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" }
+  }
+};
+
+const staggerContainerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.1
+    }
+  }
+};
+
 export default function HomePage() {
-  const [showContent, setShowContent] = useState(false);
-  
-  useEffect(() => {
-    // Show content after a short delay
-    const timer = setTimeout(() => {
-      setShowContent(true);
-    }, 2000);
-    
-    return () => clearTimeout(timer);
-  }, []);
-  
   return (
     <MainLayout>
       {/* Hero Section with Floating Embers Animation */}
@@ -66,10 +77,16 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Content */}
-      <div className={`relative z-10 flex-1 transition-opacity duration-1000 ${showContent ? 'opacity-100' : 'opacity-0'}`}>
+      {/* Content with scroll-triggered animations */}
+      <div className="relative z-10 flex-1">
         {/* Introduction Section */}
-        <section className="container mx-auto px-4 py-16">
+        <motion.section 
+          className="container mx-auto px-4 py-16"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={fadeInUpVariants}
+        >
           <div className="max-w-3xl mx-auto space-y-8 relative">
             {/* Decorative element */}
             <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-20 h-20 opacity-20 pointer-events-none">
@@ -108,10 +125,16 @@ export default function HomePage() {
               As above, so below. As within, so without. The universe is mental; all is mind.
             </p>
           </div>
-        </section>
+        </motion.section>
 
         {/* Explore Sections Grid */}
-        <section className="container mx-auto px-4 py-12 mb-16">
+        <motion.section 
+          className="container mx-auto px-4 py-12 mb-16"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={staggerContainerVariants}
+        >
           <h2 className="text-3xl md:text-4xl font-esoterica text-center mb-12 text-accent/80 relative inline-block left-1/2 -translate-x-1/2">
             Pathways of Wisdom
             <span className="absolute -bottom-2 left-0 w-full h-px bg-accent/40"></span>
@@ -119,141 +142,159 @@ export default function HomePage() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Pillars of Mystery */}
-            <Link href="/pillars" className="group">
-              <Card className="pillar-card h-full transition-all duration-500 card-glow border border-border/50 overflow-visible">
-                <CardHeader className="pb-2">
-                  <div className="mb-4 p-3 bg-card/80 rounded-full w-20 h-20 flex items-center justify-center group-hover:shadow-inner group-hover:shadow-accent/10 transition-all duration-300">
-                    <Layers className="w-10 h-10 text-accent icon-glow" />
-                  </div>
-                  <CardTitle className="text-2xl font-esoterica group-hover:text-gradient">
-                    Pillars of Mystery
-                  </CardTitle>
-                  <CardDescription className="text-muted-foreground/90 mt-2 leading-relaxed">
-                    Explore the foundational esoteric traditions that have preserved hidden wisdom through the ages.
-                  </CardDescription>
-                </CardHeader>
-                <CardFooter className="pt-4">
-                  <span className="text-accent text-sm flex items-center gap-2 group-hover:gap-4 transition-all">
-                    Explore Traditions <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </CardFooter>
-              </Card>
-            </Link>
+            <motion.div variants={fadeInUpVariants}>
+              <Link href="/pillars" className="group">
+                <Card className="pillar-card h-full transition-all duration-500 card-glow border border-border/50 overflow-visible">
+                  <CardHeader className="pb-2">
+                    <div className="mb-4 p-3 bg-card/80 rounded-full w-20 h-20 flex items-center justify-center group-hover:shadow-inner group-hover:shadow-accent/10 transition-all duration-300">
+                      <Layers className="w-10 h-10 text-accent icon-glow" />
+                    </div>
+                    <CardTitle className="text-2xl font-esoterica group-hover:text-gradient">
+                      Pillars of Mystery
+                    </CardTitle>
+                    <CardDescription className="text-muted-foreground/90 mt-2 leading-relaxed">
+                      Explore the foundational esoteric traditions that have preserved hidden wisdom through the ages.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardFooter className="pt-4">
+                    <span className="text-accent text-sm flex items-center gap-2 group-hover:gap-4 transition-all">
+                      Explore Traditions <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                  </CardFooter>
+                </Card>
+              </Link>
+            </motion.div>
             
             {/* Esoteric Atlas */}
-            <Link href="/atlas" className="group">
-              <Card className="pillar-card h-full transition-all duration-500 card-glow border border-border/50 overflow-visible">
-                <CardHeader className="pb-2">
-                  <div className="mb-4 p-3 bg-card/80 rounded-full w-20 h-20 flex items-center justify-center group-hover:shadow-inner group-hover:shadow-accent/10 transition-all duration-300">
-                    <MapPin className="w-10 h-10 text-accent icon-glow" />
-                  </div>
-                  <CardTitle className="text-2xl font-esoterica group-hover:text-gradient">
-                    Esoteric Atlas
-                  </CardTitle>
-                  <CardDescription className="text-muted-foreground/90 mt-2 leading-relaxed">
-                    Discover sacred sites and mystery schools from around the world on our interactive mystical map.
-                  </CardDescription>
-                </CardHeader>
-                <CardFooter className="pt-4">
-                  <span className="text-accent text-sm flex items-center gap-2 group-hover:gap-4 transition-all">
-                    Explore Atlas <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </CardFooter>
-              </Card>
-            </Link>
+            <motion.div variants={fadeInUpVariants}>
+              <Link href="/atlas" className="group">
+                <Card className="pillar-card h-full transition-all duration-500 card-glow border border-border/50 overflow-visible">
+                  <CardHeader className="pb-2">
+                    <div className="mb-4 p-3 bg-card/80 rounded-full w-20 h-20 flex items-center justify-center group-hover:shadow-inner group-hover:shadow-accent/10 transition-all duration-300">
+                      <MapPin className="w-10 h-10 text-accent icon-glow" />
+                    </div>
+                    <CardTitle className="text-2xl font-esoterica group-hover:text-gradient">
+                      Esoteric Atlas
+                    </CardTitle>
+                    <CardDescription className="text-muted-foreground/90 mt-2 leading-relaxed">
+                      Discover sacred sites and mystery schools from around the world on our interactive mystical map.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardFooter className="pt-4">
+                    <span className="text-accent text-sm flex items-center gap-2 group-hover:gap-4 transition-all">
+                      Explore Atlas <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                  </CardFooter>
+                </Card>
+              </Link>
+            </motion.div>
             
             {/* Alchemical Timeline */}
-            <Link href="/timeline" className="group">
-              <Card className="pillar-card h-full transition-all duration-500 card-glow border border-border/50 overflow-visible">
-                <CardHeader className="pb-2">
-                  <div className="mb-4 p-3 bg-card/80 rounded-full w-20 h-20 flex items-center justify-center group-hover:shadow-inner group-hover:shadow-accent/10 transition-all duration-300">
-                    <Clock className="w-10 h-10 text-accent icon-glow" />
-                  </div>
-                  <CardTitle className="text-2xl font-esoterica group-hover:text-gradient">
-                    Alchemical Timeline
-                  </CardTitle>
-                  <CardDescription className="text-muted-foreground/90 mt-2 leading-relaxed">
-                    Journey through the evolution of esoteric thought from ancient mysteries to modern occultism.
-                  </CardDescription>
-                </CardHeader>
-                <CardFooter className="pt-4">
-                  <span className="text-accent text-sm flex items-center gap-2 group-hover:gap-4 transition-all">
-                    Explore Timeline <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </CardFooter>
-              </Card>
-            </Link>
+            <motion.div variants={fadeInUpVariants}>
+              <Link href="/timeline" className="group">
+                <Card className="pillar-card h-full transition-all duration-500 card-glow border border-border/50 overflow-visible">
+                  <CardHeader className="pb-2">
+                    <div className="mb-4 p-3 bg-card/80 rounded-full w-20 h-20 flex items-center justify-center group-hover:shadow-inner group-hover:shadow-accent/10 transition-all duration-300">
+                      <Clock className="w-10 h-10 text-accent icon-glow" />
+                    </div>
+                    <CardTitle className="text-2xl font-esoterica group-hover:text-gradient">
+                      Alchemical Timeline
+                    </CardTitle>
+                    <CardDescription className="text-muted-foreground/90 mt-2 leading-relaxed">
+                      Journey through the evolution of esoteric thought from ancient mysteries to modern occultism.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardFooter className="pt-4">
+                    <span className="text-accent text-sm flex items-center gap-2 group-hover:gap-4 transition-all">
+                      Explore Timeline <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                  </CardFooter>
+                </Card>
+              </Link>
+            </motion.div>
             
             {/* The Secret Library */}
-            <Link href="/library" className="group">
-              <Card className="pillar-card h-full transition-all duration-500 card-glow border border-border/50 overflow-visible">
-                <CardHeader className="pb-2">
-                  <div className="mb-4 p-3 bg-card/80 rounded-full w-20 h-20 flex items-center justify-center group-hover:shadow-inner group-hover:shadow-accent/10 transition-all duration-300">
-                    <BookMarked className="w-10 h-10 text-accent icon-glow" />
-                  </div>
-                  <CardTitle className="text-2xl font-esoterica group-hover:text-gradient">
-                    The Secret Library
-                  </CardTitle>
-                  <CardDescription className="text-muted-foreground/90 mt-2 leading-relaxed">
-                    Browse our collection of articles, summaries, and resources on esoteric subjects and practices.
-                  </CardDescription>
-                </CardHeader>
-                <CardFooter className="pt-4">
-                  <span className="text-accent text-sm flex items-center gap-2 group-hover:gap-4 transition-all">
-                    Enter Library <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </CardFooter>
-              </Card>
-            </Link>
+            <motion.div variants={fadeInUpVariants}>
+              <Link href="/library" className="group">
+                <Card className="pillar-card h-full transition-all duration-500 card-glow border border-border/50 overflow-visible">
+                  <CardHeader className="pb-2">
+                    <div className="mb-4 p-3 bg-card/80 rounded-full w-20 h-20 flex items-center justify-center group-hover:shadow-inner group-hover:shadow-accent/10 transition-all duration-300">
+                      <BookMarked className="w-10 h-10 text-accent icon-glow" />
+                    </div>
+                    <CardTitle className="text-2xl font-esoterica group-hover:text-gradient">
+                      The Secret Library
+                    </CardTitle>
+                    <CardDescription className="text-muted-foreground/90 mt-2 leading-relaxed">
+                      Browse our collection of articles, summaries, and resources on esoteric subjects and practices.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardFooter className="pt-4">
+                    <span className="text-accent text-sm flex items-center gap-2 group-hover:gap-4 transition-all">
+                      Enter Library <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                  </CardFooter>
+                </Card>
+              </Link>
+            </motion.div>
             
             {/* The Inner Chamber */}
-            <Link href="/chamber" className="group">
-              <Card className="pillar-card h-full transition-all duration-500 card-glow border border-border/50 overflow-visible">
-                <CardHeader className="pb-2">
-                  <div className="mb-4 p-3 bg-card/80 rounded-full w-20 h-20 flex items-center justify-center group-hover:shadow-inner group-hover:shadow-accent/10 transition-all duration-300">
-                    <Scroll className="w-10 h-10 text-accent icon-glow" />
-                  </div>
-                  <CardTitle className="text-2xl font-esoterica group-hover:text-gradient">
-                    The Inner Chamber
-                  </CardTitle>
-                  <CardDescription className="text-muted-foreground/90 mt-2 leading-relaxed">
-                    Practical wisdom for the modern seeker - meditations, rituals, and inner workings.
-                  </CardDescription>
-                </CardHeader>
-                <CardFooter className="pt-4">
-                  <span className="text-accent text-sm flex items-center gap-2 group-hover:gap-4 transition-all">
-                    Enter Chamber <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </CardFooter>
-              </Card>
-            </Link>
+            <motion.div variants={fadeInUpVariants}>
+              <Link href="/chamber" className="group">
+                <Card className="pillar-card h-full transition-all duration-500 card-glow border border-border/50 overflow-visible">
+                  <CardHeader className="pb-2">
+                    <div className="mb-4 p-3 bg-card/80 rounded-full w-20 h-20 flex items-center justify-center group-hover:shadow-inner group-hover:shadow-accent/10 transition-all duration-300">
+                      <Scroll className="w-10 h-10 text-accent icon-glow" />
+                    </div>
+                    <CardTitle className="text-2xl font-esoterica group-hover:text-gradient">
+                      The Inner Chamber
+                    </CardTitle>
+                    <CardDescription className="text-muted-foreground/90 mt-2 leading-relaxed">
+                      Practical wisdom for the modern seeker - meditations, rituals, and inner workings.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardFooter className="pt-4">
+                    <span className="text-accent text-sm flex items-center gap-2 group-hover:gap-4 transition-all">
+                      Enter Chamber <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                  </CardFooter>
+                </Card>
+              </Link>
+            </motion.div>
             
             {/* Daily Oracle */}
-            <Link href="/oracle" className="group">
-              <Card className="pillar-card h-full transition-all duration-500 card-glow border border-border/50 overflow-visible">
-                <CardHeader className="pb-2">
-                  <div className="mb-4 p-3 bg-card/80 rounded-full w-20 h-20 flex items-center justify-center group-hover:shadow-inner group-hover:shadow-accent/10 transition-all duration-300">
-                    <Sparkles className="w-10 h-10 text-accent icon-glow" />
-                  </div>
-                  <CardTitle className="text-2xl font-esoterica group-hover:text-gradient">
-                    Daily Oracle
-                  </CardTitle>
-                  <CardDescription className="text-muted-foreground/90 mt-2 leading-relaxed">
-                    Receive daily wisdom and mystical insights to guide your spiritual journey.
-                  </CardDescription>
-                </CardHeader>
-                <CardFooter className="pt-4">
-                  <span className="text-accent text-sm flex items-center gap-2 group-hover:gap-4 transition-all">
-                    Consult Oracle <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </CardFooter>
-              </Card>
-            </Link>
+            <motion.div variants={fadeInUpVariants}>
+              <Link href="/oracle" className="group">
+                <Card className="pillar-card h-full transition-all duration-500 card-glow border border-border/50 overflow-visible">
+                  <CardHeader className="pb-2">
+                    <div className="mb-4 p-3 bg-card/80 rounded-full w-20 h-20 flex items-center justify-center group-hover:shadow-inner group-hover:shadow-accent/10 transition-all duration-300">
+                      <Sparkles className="w-10 h-10 text-accent icon-glow" />
+                    </div>
+                    <CardTitle className="text-2xl font-esoterica group-hover:text-gradient">
+                      Daily Oracle
+                    </CardTitle>
+                    <CardDescription className="text-muted-foreground/90 mt-2 leading-relaxed">
+                      Receive daily wisdom and mystical insights to guide your spiritual journey.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardFooter className="pt-4">
+                    <span className="text-accent text-sm flex items-center gap-2 group-hover:gap-4 transition-all">
+                      Consult Oracle <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                  </CardFooter>
+                </Card>
+              </Link>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
         
         {/* Final Call to Action */}
-        <section className="bg-card/30 backdrop-blur-sm py-16 border-t border-border/20">
+        <motion.section 
+          className="bg-card/30 backdrop-blur-sm py-16 border-t border-border/20"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={fadeInUpVariants}
+        >
           <div className="container mx-auto px-4 text-center">
             <div className="max-w-3xl mx-auto">
               <h2 className="text-3xl font-esoterica mb-6 text-accent/80">Begin Your Mystical Journey</h2>
@@ -268,7 +309,7 @@ export default function HomePage() {
               </Button>
             </div>
           </div>
-        </section>
+        </motion.section>
       </div>
     </MainLayout>
   );
